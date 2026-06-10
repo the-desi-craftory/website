@@ -4,6 +4,13 @@ import { fetchProducts, getFeaturedProducts, getCategories } from "@/lib/product
 import ProductCard from "@/components/ProductCard";
 import { BUSINESS_CONFIG } from "@/lib/config";
 
+import img1 from "../public/images/i1.png"; // Adjust the relative path depending on where this file sits
+import img2 from "../public/images/i2.png"; // Adjust the relative path depending on where this file sits
+import img3 from "../public/images/i3.png";
+import img4 from "../public/images/i4.png";
+import img5 from "../public/images/i5.png";
+
+
 function YarnDivider() {
   return (
     <div style={{ textAlign: "center", margin: "24px 0", opacity: 0.4 }}>
@@ -77,16 +84,16 @@ export default async function HomePage() {
           {/* Hero image mosaic */}
           <div style={{ position: "relative", height: "480px" }} className="hero-mosaic">
             <div style={{ position: "absolute", top: 0, left: 0, width: "58%", height: "58%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
-              <Image src="/images/i2.png" alt="Crochet product" fill style={{ objectFit: "cover" }} />
+              <Image src={img2} alt="Crochet product" fill style={{ objectFit: "cover" }} />
             </div>
             <div style={{ position: "absolute", top: "10%", right: 0, width: "40%", height: "44%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
-              <Image src="/images/i3.png" alt="Crochet product" fill style={{ objectFit: "cover" }} />
+              <Image src={img3} alt="Crochet product" fill style={{ objectFit: "cover" }} />
             </div>
             <div style={{ position: "absolute", bottom: 0, left: "8%", width: "44%", height: "40%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
-              <Image src="/images/i4.png" alt="Crochet product" fill style={{ objectFit: "cover" }} />
+              <Image src={img4} alt="Crochet product" fill style={{ objectFit: "cover" }} />
             </div>
             <div style={{ position: "absolute", bottom: "6%", right: 0, width: "38%", height: "38%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
-              <Image src="/images/i5.png" alt="Crochet product" fill style={{ objectFit: "cover" }} />
+              <Image src={img5} alt="Crochet product" fill style={{ objectFit: "cover" }} />
             </div>
             <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", backgroundColor: "#FFF9F5", borderRadius: "16px", padding: "14px 20px", boxShadow: "0 8px 32px rgba(61,53,48,0.18)", textAlign: "center", border: "1px solid #F2D9D0", zIndex: 10 }}>
               <div style={{ fontSize: "1.6rem" }}>🧶</div>
@@ -153,7 +160,7 @@ export default async function HomePage() {
       <section style={{ padding: "80px 24px", backgroundColor: "#FFF9F5" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center" }} className="about-grid">
           <div style={{ position: "relative", height: "440px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 16px 48px rgba(61,53,48,0.12)" }}>
-            <Image src="/images/i1.png" alt="The artist at work" fill style={{ objectFit: "cover" }} />
+            <Image src={img1} alt="The artist at work" fill style={{ objectFit: "cover" }} />
             <div style={{ position: "absolute", bottom: "24px", left: "24px", backgroundColor: "rgba(255,249,245,0.95)", backdropFilter: "blur(4px)", padding: "16px 20px", borderRadius: "14px", boxShadow: "0 4px 16px rgba(61,53,48,0.1)" }}>
               <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", color: "#3D3530", fontWeight: 600 }}>Every piece is unique</div>
               <div style={{ fontSize: "0.8rem", color: "#8A7F7A" }}>No two creations are alike</div>

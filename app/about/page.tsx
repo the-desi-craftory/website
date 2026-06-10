@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BUSINESS_CONFIG } from "@/lib/config";
+import img6 from "../../public/images/i6.png"; // Adjust the relative path depending on where this file sits
 
 export const metadata = {
   title: "About — Mayuri Mehta | Crafted by Mehtas",
@@ -67,7 +68,7 @@ export default function AboutPage() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center" }} className="story-grid">
           <div style={{ position: "relative", height: "500px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 20px 60px rgba(61,53,48,0.12)" }}>
             <Image
-              src="/images/i6.png"
+              src={img6}
               alt="Mayuri Mehta crafting"
               fill
               style={{ objectFit: "cover" }}
