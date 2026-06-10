@@ -2,7 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "export",
-  trailingSlash: true,
+  basePath: "/website",  // Adds the GitHub repository sub-path prefix
+  trailingSlash: true,   // Keeps URLs compatible with GitHub Pages folder structure
   images: {
     unoptimized: true,
     remotePatterns: [
