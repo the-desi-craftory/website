@@ -59,7 +59,7 @@ export default function AboutPage() {
             Crafted by Mehtas Founder
         </h1>
         <p style={{ color: "#8A7F7A", maxWidth: "480px", margin: "0 auto", lineHeight: 1.7 }}>
-          A passion for creating, one stitch at a time.
+          A passion for creating, one stitch at a time
         </p>
       </div>
 
