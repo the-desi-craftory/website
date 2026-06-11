@@ -23,10 +23,15 @@ function YarnDivider() {
 }
 
 const CATEGORY_ICONS: Record<string, string> = {
-  Flowers: "🌸", Bouquets: "💐", Keychains: "🔑",
-  "Mudwork Frames": "🌄", "Organizers": "🖇️",
-  Bags: "👜", "Home Decor": "🏡", "Custom Orders": "✨",
-  Jwellery: "💍", Accessories: "🎀", Gifts: "🧸",
+  "Bottle Sleeve": "🧴",
+  "Car Accessories": "🚗",
+  "Crochet Flowers & Decor": "🌸",
+  "Home Accessories": "🏠",
+  "Keychains & Charms": "🔑",
+  "Personal Accessories": "🎀",
+  "Tech Accessories": "📱",
+  "Wall Clocks": "🕒",
+  "Wall Decor & Lippan Art": "🖼️",
 };
 
 const WA_ICON = (
