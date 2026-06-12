@@ -2,21 +2,21 @@
 // BUSINESS CONFIGURATION — edit these values
 // ============================================================
 export const BUSINESS_CONFIG = {
-  name: "Crafted by Mehtas",
+  name: "The Desi Craftory",
   tagline: "Handcrafted with love, one stitch at a time",
   description:
     "Each piece is lovingly handcrafted to bring warmth, beauty, and joy into your everyday life.",
   whatsappNumber: "918141816990", // country code + number, no + or spaces
-  instagramHandle: "crafted.by.mehtas",
-  instagramUrl: "https://instagram.com/crafted.by.mehtas",
-  email: "craftedby.mehtas@gmail.com",
+  instagramHandle: "the.desi.craftory",
+  instagramUrl: "https://instagram.com/the.desi.craftory",
+  email: "the.desi.craftory@gmail.com",
 
   // Google Sheets JSON URL — set via .env.local or GitHub secret
   // Sheet name must be: Products
   // Spreadsheet name: Business Portfolio
   sheetsUrl:
     process.env.NEXT_PUBLIC_SHEETS_URL ||
-    "https://docs.google.com/spreadsheets/d/1-Olitv1Ql9E2x6_yWk_bMboJ5H739KpFdsjTPCkcP-8/gviz/tq?tqx=out:json&sheet=Products",
+    "https://docs.google.com/spreadsheets/d/1-HOeO3AyOgQG5vvi6GXU3cxZvrIRZS82keJbsWd6nXQ/gviz/tq?tqx=out:json&sheet=Products",
 };
 
 // ── WhatsApp message builder ──────────────────────────────────

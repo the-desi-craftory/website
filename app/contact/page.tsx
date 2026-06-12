@@ -1,8 +1,8 @@
 import { BUSINESS_CONFIG } from "@/lib/config";
 
 export const metadata = {
-  title: "Contact — Maahi's Crochet",
-  description: "Get in touch to place orders, ask questions, or request custom crochet pieces.",
+  title: "Contact — The Desi Craftory",
+  description: "Get in touch to place orders, ask questions, or request custom handmade pieces.",
 };
 
 export default function ContactPage() {
@@ -26,7 +26,7 @@ export default function ContactPage() {
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "80px 24px" }}>
         {/* Contact cards */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "24px", marginBottom: "64px" }}>
-          <a href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to get in touch about your crochet products.")}`}
+          <a href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to get in touch about your handmade products.")}`}
             target="_blank" rel="noopener noreferrer" className="contact-card contact-card--wa">
             <div className="contact-icon" style={{ backgroundColor: "#25D366" }}>
               <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
@@ -79,10 +79,10 @@ export default function ContactPage() {
             Have a custom idea?
           </h2>
           <p style={{ color: "#D4C5B0", lineHeight: 1.7, maxWidth: "500px", margin: "0 auto 32px", fontSize: "1rem" }}>
-            I love making one-of-a-kind pieces. Tell me your favourite colours, the occasion, or share a reference image — and I&apos;ll make it happen.
+            We love making one-of-a-kind pieces. Tell us your favourite colours, the occasion, or share a reference image — and weI love making one-of-a-kind pieces. Tell me your favourite colours, the occasion, or share a reference image — and I&apos;ll make it happen.apos;ll make it happen.
           </p>
           <a
-            href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to request a custom crochet piece.\n\nWhat I want: \nColours: \nOccasion: \nBudget: ")}`}
+            href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to request a custom handmade piece.\n\nWhat I want: \nColours: \nOccasion: \nBudget: ")}`}
             target="_blank" rel="noopener noreferrer"
             style={{
               backgroundColor: "#25D366", color: "#fff",
@@ -109,7 +109,7 @@ export default function ContactPage() {
               { q: "How long does delivery take?", a: "Most orders are dispatched within 3–5 business days. Delivery takes an additional 2–7 days depending on your location across India." },
               { q: "Can I customise the colours?", a: "Absolutely! Just mention your preferred colours when you WhatsApp us and we'll do our best to accommodate. We have a wide range of yarn colours available." },
               { q: "Do you accept bulk or gifting orders?", a: "Yes! We love creating personalised gift sets and bulk orders for events like baby showers, weddings, and corporate gifting. Message us for special pricing." },
-              { q: "How do I care for my crochet product?", a: "Hand wash gently in cold water with mild soap. Lay flat to dry. Avoid wringing or machine washing to preserve the shape and texture." },
+              { q: "How do I care for my handmade product?", a: "Hand wash gently in cold water with mild soap. Lay flat to dry. Avoid wringing or machine washing to preserve the shape and texture." },
             ].map((faq) => (
               <div key={faq.q} style={{ backgroundColor: "#FFF9F5", border: "1px solid #F2D9D0", borderRadius: "16px", padding: "24px 28px" }}>
                 <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1rem", color: "#3D3530", margin: "0 0 10px", fontWeight: 600 }}>{faq.q}</h4>

@@ -4,9 +4,9 @@ import { BUSINESS_CONFIG } from "@/lib/config";
 import img6 from "../../public/images/i6.png"; // Adjust the relative path depending on where this file sits
 
 export const metadata = {
-  title: "About — Mayuri Mehta | Crafted by Mehtas",
+  title: "About — Mayuri Mehta & Kashmira Shah | The Desi Craftory",
   description:
-    "The story of Mayuri Mehta, founder of Crafted by Mehtas — crafting and crochet with a love for mudwork and handmade art.",
+    "The story of Mayuri Mehta and Kashmira Shah, co-founders of The Desi Craftory — sisters bringing crochet, mudwork, and handmade art to life.",
 };
 
 const CRAFT_STEPS = [
@@ -53,13 +53,13 @@ export default function AboutPage() {
         borderBottom: "1px solid #E8C4B8",
       }}>
         <p style={{ fontSize: "0.78rem", fontWeight: 700, color: "#A8B5A0", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "12px" }}>
-          The maker behind the art
+          The makers behind the art
         </p>
         <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "#3D3530", margin: "0 0 16px" }}>
-            Crafted by Mehtas Founder
+            The Desi Craftory Founders
         </h1>
         <p style={{ color: "#8A7F7A", maxWidth: "480px", margin: "0 auto", lineHeight: 1.7 }}>
-          A passion for creating, one stitch at a time.
+          Two sisters, one shared passion — crafted with love, stitch by stitch.
         </p>
       </div>
 
@@ -69,25 +69,24 @@ export default function AboutPage() {
           <div style={{ position: "relative", height: "500px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 20px 60px rgba(61,53,48,0.12)" }}>
             <Image
               src={img6}
-              alt="Mayuri Mehta crafting"
+              alt="Mayuri Mehta and Kashmira Shah, co-founders of The Desi Craftory"
               fill
               style={{ objectFit: "cover" }}
             />
-
           </div>
           <div>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.6rem, 3vw, 2.4rem)", color: "#3D3530", margin: "0 0 24px", lineHeight: 1.25 }}>
-              Hi, I&apos;m Mayuri Mehta!<br />
-              <em style={{ color: "#A8B5A0", fontStyle: "italic" }}>Founder of Crafted by Mehtas.</em>
+              Hi, we&apos;re Mayuri & Kashmira!<br />
+              <em style={{ color: "#A8B5A0", fontStyle: "italic" }}>Sisters and co-founders of The Desi Craftory.</em>
             </h2>
             <p style={{ fontSize: "1rem", color: "#8A7F7A", lineHeight: 1.85, marginBottom: "20px" }}>
-              I&apos;m a homemaker at heart, and I carry forward the arts with love — from <strong>crafting & crochet</strong> to <strong>mudwork</strong> — ever since I was <strong>12 years old</strong>.
+              We&apos;re sisters by blood and creators at heart, carrying forward the arts we fell in love with as <strong>teenagers</strong> — from <strong>crochet and crafting</strong> to <strong>mudwork</strong>.
             </p>
             <p style={{ fontSize: "1rem", color: "#8A7F7A", lineHeight: 1.85, marginBottom: "20px" }}>
-              Between managing the entire family and the daily routines of home, I’ve stayed devoted to creating. Each piece is my way of keeping tradition alive while turning it into something new, personal, and meaningful.
+              What began as a shared hobby between us has grown into something we&apos;re proud to call a business. Every piece is our way of keeping tradition alive while turning it into something new, personal, and meaningful.
             </p>
             <p style={{ fontSize: "1rem", color: "#8A7F7A", lineHeight: 1.85, marginBottom: "36px" }}>
-              {BUSINESS_CONFIG.name} is not just about crochet — it&apos;s about <strong>all sorts of art work</strong>. Whether it’s crochet, mudwork, or other handmade crafts, I make artworks that feel warm, handcrafted, and made to be cherished.
+              {BUSINESS_CONFIG.name} is not just about crochet — it&apos;s about <strong>all sorts of art work</strong>. Whether it&apos;s crochet, mudwork, or other handmade crafts, we make artworks that feel warm, handcrafted, and made to be cherished.
             </p>
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
               <a
@@ -119,7 +118,7 @@ export default function AboutPage() {
                 fontSize: "0.9rem",
                 border: "1px solid #E8C4B8",
               }}>
-                See My Work
+                See Our Work
               </Link>
             </div>
           </div>
@@ -131,15 +130,15 @@ export default function AboutPage() {
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "56px" }}>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3vw, 2.4rem)", color: "#3D3530", margin: 0 }}>
-              What I make, and why it matters
+              What we make, and why it matters
             </h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
             {[
               { icon: "🤲", title: "Handcrafted with Love", desc: "Every piece is made by hand — from crochet to mudwork — with care, patience, and true craftsmanship." },
               { icon: "🌿", title: "Quality Materials", desc: "Carefully chosen supplies, finishes, and tools — so your artwork looks beautiful and lasts longer." },
-              { icon: "💛", title: "Made with Intention", desc: "Nothing is rushed. I create each artwork with attention to detail, one step at a time." },
-              { icon: "🎨", title: "Custom & Personal", desc: "I bring your ideas to life — colours, designs, themes, and preferences — whatever makes it truly yours." },
+              { icon: "💛", title: "Made with Intention", desc: "Nothing is rushed. We create each artwork with attention to detail, one step at a time." },
+              { icon: "🎨", title: "Custom & Personal", desc: "We bring your ideas to life — colours, designs, themes, and preferences — whatever makes it truly yours." },
             ].map((v) => (
               <div key={v.title} style={{
                 backgroundColor: "#FAF7F2",
@@ -165,7 +164,7 @@ export default function AboutPage() {
               From idea to artwork
             </p>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3vw, 2.4rem)", color: "#3D3530", margin: 0 }}>
-              How Crafted by Mehtas pieces are made
+              How The Desi Craftory pieces are made
             </h2>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
