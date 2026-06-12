@@ -1,13 +1,20 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
 import { Product } from "@/lib/types";
+import { fetchProducts } from "@/lib/products";
 import ProductCard from "./ProductCard";
 
-interface ProductGridProps {
-  products: Product[];
-}
+export default function ProductGrid() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default function ProductGrid({ products }: ProductGridProps) {
+  useEffect(() => {
+    fetchProducts().then((data) => {
+      setProducts(data);
+      setLoading(false);
+    });
+  }, []);
+
   const categories = useMemo(() => {
     const cats = Array.from(new Set(products.map((p) => p.category))).sort();
     return ["All", ...cats];
@@ -35,6 +42,15 @@ export default function ProductGrid({ products }: ProductGridProps) {
     else if (sort === "desc") list = [...list].sort((a, b) => b.discountedPrice - a.discountedPrice);
     return list;
   }, [products, activeCategory, search, sort]);
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: "center", padding: "80px 20px" }}>
+        <div style={{ fontSize: "3rem", marginBottom: "16px" }}>🧶</div>
+        <p style={{ color: "#8A7F7A" }}>Loading products…</p>
+      </div>
+    );
+  }
 
   return (
     <div>

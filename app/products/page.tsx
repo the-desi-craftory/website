@@ -1,4 +1,3 @@
-import { fetchProducts } from "@/lib/products";
 import ProductGrid from "@/components/ProductGrid";
 
 export const metadata = {
@@ -6,11 +5,7 @@ export const metadata = {
   description: "Browse our full collection of handmade crochet flowers, keychains, heritage frames and home decors.",
 };
 
-// For static export, we can't use searchParams in the page component
-// The ProductGrid client component handles category filtering via URL params client-side
-export default async function ProductsPage() {
-  const products = await fetchProducts();
-
+export default function ProductsPage() {
   return (
     <div style={{ paddingTop: "88px" }}>
       <div style={{
@@ -28,7 +23,7 @@ export default async function ProductsPage() {
         </p>
       </div>
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "48px 24px 80px" }}>
-        <ProductGrid products={products} />
+        <ProductGrid />
       </div>
     </div>
   );
