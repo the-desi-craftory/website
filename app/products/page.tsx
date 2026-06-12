@@ -3,7 +3,7 @@ import ProductGrid from "@/components/ProductGrid";
 
 export const metadata = {
   title: "Products — The Desi Craftory",
-  description: "Browse our full collection of handmade crochet flowers, bouquets, keychains, frames and home decor.",
+  description: "Browse our full collection of handmade crochet flowers, keychains, frames and home decor.",
 };
 
 // For static export, we can't use searchParams in the page component
