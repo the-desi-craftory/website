@@ -37,7 +37,7 @@ export default function OrderForm({ product, onClose }: { product: Product; onCl
       `Payment Method: ${form.payment}\n\n` +
       `Shipping Address: ${form.address}\n` +
       `Special Request: ${form.special || "None"}\n\n` +
-      `Note: Shipping cost will be borne by the customer. Final price may vary based on requirements.`;
+      `Note: Shipping cost will be borne by the customer. Final price and delivery date may vary based on custom requirements.`;
 
     return `https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`;
   }
