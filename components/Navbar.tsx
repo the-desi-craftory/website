@@ -60,20 +60,46 @@ export default function Navbar() {
           {/* Desktop links */}
           <div style={{ display: "flex", alignItems: "center", gap: "36px" }} className="desktop-nav">
             {navLinks.map((l) => (
-              <Link key={l.href} href={l.href} style={{
-                fontFamily: "'Lato', sans-serif",
-                fontSize: "0.88rem",
-                fontWeight: 400,
-                color: "#3D3530",
-                textDecoration: "none",
-                letterSpacing: "0.04em",
-                transition: "color 0.2s",
-              }}
-              onMouseOver={(e) => (e.currentTarget.style.color = "#A8B5A0")}
-              onMouseOut={(e) => (e.currentTarget.style.color = "#3D3530")}
-              >
-                {l.label}
-              </Link>
+              l.href === "/products" ? (
+                <a key={l.href} href="/products/" onClick={(e) => {
+                  e.preventDefault();
+                  if (window.location.pathname.includes("/products")) {
+                    window.history.pushState({}, "", window.location.pathname.split("?")[0]);
+                    window.dispatchEvent(new PopStateEvent("popstate"));
+                  } else {
+                    window.location.href = "/products/";
+                  }
+                }} style={{
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: "0.88rem",
+                  fontWeight: 400,
+                  color: "#3D3530",
+                  textDecoration: "none",
+                  letterSpacing: "0.04em",
+                  transition: "color 0.2s",
+                  cursor: "pointer",
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.color = "#A8B5A0")}
+                onMouseOut={(e) => (e.currentTarget.style.color = "#3D3530")}
+                >
+                  {l.label}
+                </a>
+              ) : (
+                <Link key={l.href} href={l.href} style={{
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: "0.88rem",
+                  fontWeight: 400,
+                  color: "#3D3530",
+                  textDecoration: "none",
+                  letterSpacing: "0.04em",
+                  transition: "color 0.2s",
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.color = "#A8B5A0")}
+                onMouseOut={(e) => (e.currentTarget.style.color = "#3D3530")}
+                >
+                  {l.label}
+                </Link>
+              )
             ))}
             <a
               href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}`}
@@ -123,17 +149,41 @@ export default function Navbar() {
             padding: "16px 0",
           }} className="mobile-nav">
             {navLinks.map((l) => (
-              <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{
-                display: "block",
-                padding: "12px 16px",
-                fontFamily: "'Lato', sans-serif",
-                fontSize: "0.95rem",
-                color: "#3D3530",
-                textDecoration: "none",
-                borderRadius: "8px",
-              }}>
-                {l.label}
-              </Link>
+              l.href === "/products" ? (
+                <a key={l.href} href="/products/" onClick={(e) => {
+                  e.preventDefault();
+                  setOpen(false);
+                  if (window.location.pathname.includes("/products")) {
+                    window.history.pushState({}, "", window.location.pathname.split("?")[0]);
+                    window.dispatchEvent(new PopStateEvent("popstate"));
+                  } else {
+                    window.location.href = "/products/";
+                  }
+                }} style={{
+                  display: "block",
+                  padding: "12px 16px",
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: "0.95rem",
+                  color: "#3D3530",
+                  textDecoration: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                }}>
+                  {l.label}
+                </a>
+              ) : (
+                <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{
+                  display: "block",
+                  padding: "12px 16px",
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: "0.95rem",
+                  color: "#3D3530",
+                  textDecoration: "none",
+                  borderRadius: "8px",
+                }}>
+                  {l.label}
+                </Link>
+              )
             ))}
             <a
               href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}`}
