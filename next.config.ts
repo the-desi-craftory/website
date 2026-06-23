@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: "/website",  // Adds the GitHub repository sub-path prefix
-  trailingSlash: true,   // Keeps URLs compatible with GitHub Pages folder structure
+  basePath: process.env.NODE_ENV === "production" ? "/website" : "",
+  trailingSlash: true,
   images: {
     unoptimized: true,
     remotePatterns: [

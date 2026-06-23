@@ -36,7 +36,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
   }, [onClose]);
 
   return (
-    <> {/* 1. Wrapped the whole block in a Fragment to support two root items */}
+    <>
       <div onClick={onClose} style={{
         position: "fixed", inset: 0, backgroundColor: "rgba(61,53,48,0.72)",
         backdropFilter: "blur(4px)", zIndex: 1000,
@@ -49,29 +49,62 @@ export default function ProductModal({ product, onClose }: { product: Product; o
           display: "grid", gridTemplateColumns: "1fr 1fr",
         }}>
           {/* Image side */}
-          <div
-            style={{
+          <div style={{
+            display: "flex", flexDirection: "column",
+            backgroundColor: "#FAF7F2",
+          }}>
+            {/* Image */}
+            <div style={{
               position: "relative",
               width: "100%",
               aspectRatio: "4 / 5",
-              backgroundColor: "#FAF7F2",
               overflow: "hidden",
-            }}
-          >
-            {!imgError && product.imageUrl ? (
-              <Image src={product.imageUrl} alt={product.name} fill
-                style={{ objectFit: "cover" }} onError={() => setImgError(true)} unoptimized />
-            ) : (
-              <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "5rem", backgroundColor: "#F2D9D0" }}>🧶</div>
-            )}
-            {hasDiscount && (
-              <div style={{
-                position: "absolute", top: "14px", left: "14px",
-                backgroundColor: "#E05C5C", color: "#fff",
-                padding: "5px 12px", borderRadius: "50px",
+              flexShrink: 0,
+            }}>
+              {!imgError && product.imageUrl ? (
+                <Image src={product.imageUrl} alt={product.name} fill
+                  style={{ objectFit: "cover" }} onError={() => setImgError(true)} unoptimized />
+              ) : (
+                <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "5rem", backgroundColor: "#F2D9D0" }}>🧶</div>
+              )}
+              {hasDiscount && (
+                <div style={{
+                  position: "absolute", top: "14px", left: "14px",
+                  backgroundColor: "#E05C5C", color: "#fff",
+                  padding: "5px 12px", borderRadius: "50px",
+                  fontSize: "0.78rem", fontWeight: 700,
+                }}>{discountPct}% OFF</div>
+              )}
+            </div>
+
+            {/* View more — below the image */}
+            <button
+              onClick={() => {
+                const catParam = encodeURIComponent(product.category);
+                const onProductsPage = window.location.pathname.includes("/products");
+                if (onProductsPage) {
+                  window.history.pushState({}, "", window.location.pathname + `?category=${catParam}`);
+                  window.dispatchEvent(new PopStateEvent("popstate"));
+                  onClose();
+                } else {
+                  window.location.href = window.location.origin + (window.location.pathname.split("/products")[0]) + `/products/?category=${catParam}`;
+                }
+              }}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
+                padding: "12px 16px", width: "100%",
+                backgroundColor: "#FAF7F2",
+                borderTop: "1px solid #F2D9D0", borderLeft: "none", borderRight: "none", borderBottom: "none",
                 fontSize: "0.78rem", fontWeight: 700,
-              }}>{discountPct}% OFF</div>
-            )}
+                color: "#7A8F71", letterSpacing: "0.03em",
+                cursor: "pointer", transition: "background-color 0.2s",
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#F2D9D0")}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#FAF7F2")}
+            >
+              <span>🔍</span>
+              View more {product.category} →
+            </button>
           </div>
 
           {/* Details side */}
@@ -172,7 +205,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
                 display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
                 backgroundColor: "#25D366", color: "#fff",
                 padding: "13px", borderRadius: "12px",
-                textDecoration: "none", fontWeight: 700, fontSize: "0.92rem",
+                fontWeight: 700, fontSize: "0.92rem",
                 transition: "background-color 0.2s", border: "none", cursor: "pointer",
               }}
               onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#1db954")}
@@ -185,7 +218,6 @@ export default function ProductModal({ product, onClose }: { product: Product; o
           </div>
         </div>
 
-        {/* Updated media query below to fix overflow layout problems on mobile devices */}
         <style>{`
           @media (max-width: 600px) { 
             .modal-grid { 

@@ -4,13 +4,25 @@ import { Product } from "@/lib/types";
 import { fetchProducts } from "@/lib/products";
 import ProductCard from "./ProductCard";
 
+// Stable shuffle using Fisher-Yates — seeded per session so it doesn't re-shuffle on every render
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 export default function ProductGrid() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [shuffledProducts, setShuffledProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchProducts().then((data) => {
       setProducts(data);
+      setShuffledProducts(shuffle(data)); // shuffle once on load, stays stable
       setLoading(false);
     });
   }, []);
@@ -24,15 +36,27 @@ export default function ProductGrid() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("default");
 
-  // Read ?category= from URL on client side
+  // Read ?category= from URL — also re-runs on navigation
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const cat = params.get("category");
-    if (cat && categories.includes(cat)) setActiveCategory(cat);
+    function syncCategory() {
+      const params = new URLSearchParams(window.location.search);
+      const cat = params.get("category");
+      if (cat && categories.includes(cat)) setActiveCategory(cat);
+      else if (!cat) setActiveCategory("All");
+    }
+
+    syncCategory();
+    window.addEventListener("popstate", syncCategory);
+    return () => window.removeEventListener("popstate", syncCategory);
   }, [categories]);
 
   const filtered = useMemo(() => {
-    let list = products;
+    // Use shuffled order for "All" with default sort, original order otherwise
+    const base = (activeCategory === "All" && sort === "default")
+      ? shuffledProducts
+      : products;
+
+    let list = base;
     if (activeCategory !== "All") list = list.filter((p) => p.category === activeCategory);
     if (search.trim()) {
       const q = search.toLowerCase();
@@ -41,7 +65,7 @@ export default function ProductGrid() {
     if (sort === "asc") list = [...list].sort((a, b) => a.discountedPrice - b.discountedPrice);
     else if (sort === "desc") list = [...list].sort((a, b) => b.discountedPrice - a.discountedPrice);
     return list;
-  }, [products, activeCategory, search, sort]);
+  }, [products, shuffledProducts, activeCategory, search, sort]);
 
   if (loading) {
     return (
