@@ -181,7 +181,6 @@ export default function Navbar() {
           font-family: 'Lato', sans-serif;
           font-size: 0.84rem;
           letter-spacing: 0.05em;
-          text-transform: uppercase;
           color: #3D3530;
           font-weight: 700;
         }
