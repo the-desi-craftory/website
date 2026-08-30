@@ -3,9 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Product } from "@/lib/types";
-import { buildWhatsAppUrl } from "@/lib/config";
 import ProductModal from "./ProductModal";
-import OrderForm from "./OrderForm"; // 1. Added missing import
+import OrderForm from "./OrderForm";
 
 const WA_SVG = (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -14,7 +13,6 @@ const WA_SVG = (
 );
 
 export default function ProductCard({ product }: { product: Product }) {
-  // 2. Moved formOpen state inside the component scope
   const [formOpen, setFormOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -23,14 +21,6 @@ export default function ProductCard({ product }: { product: Product }) {
   const discountPct = hasDiscount
     ? Math.round(((product.originalPrice! - product.discountedPrice) / product.originalPrice!) * 100)
     : 0;
-
-  const waUrl = buildWhatsAppUrl(
-    product.id,
-    product.name,
-    product.discountedPrice,
-    product.originalPrice,
-    product.orderFields
-  );
 
   return (
     <>
@@ -64,7 +54,6 @@ export default function ProductCard({ product }: { product: Product }) {
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transformOrigin = "top left";
-                // 3. Updated from scale(1.8) to scale(1.9) to match base state
                 e.currentTarget.style.transform = "scale(1.9)"; 
               }}
               unoptimized

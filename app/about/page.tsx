@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BUSINESS_CONFIG } from "@/lib/config";
-import img6 from "../../public/images/i6.png"; // Adjust the relative path depending on where this file sits
+import img6 from "../../public/images/i6.png";
 
 export const metadata = {
   title: "About — Mayuri Mehta & Kashmira Shah | The Desi Craftory",
@@ -44,7 +44,7 @@ const CRAFT_STEPS = [
 
 export default function AboutPage() {
   return (
-    <div style={{ paddingTop: "88px" }}>
+    <div style={{ paddingTop: "124px" }}>
       {/* Header */}
       <div style={{
         background: "linear-gradient(135deg, #FAF7F2 0%, #F2D9D0 100%)",

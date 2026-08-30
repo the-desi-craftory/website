@@ -66,7 +66,7 @@ export default function HomePage() {
         minHeight: "100vh",
         background: "linear-gradient(160deg, #FFF9F5 0%, #FAF7F2 50%, #F2D9D0 100%)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        position: "relative", overflow: "hidden", paddingTop: "80px",
+        position: "relative", overflow: "hidden", paddingTop: "124px",
       }}>
         <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(168,181,160,0.18) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "320px", height: "320px", borderRadius: "50%", background: "radial-gradient(circle, rgba(232,196,184,0.22) 0%, transparent 70%)", pointerEvents: "none" }} />

@@ -10,6 +10,9 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
+const SALE_MESSAGE =
+  "Jhanmastmi Sale is live.... Flat 25% off on Crochet Products and 15% on rest of the products";
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -60,46 +63,20 @@ export default function Navbar() {
           {/* Desktop links */}
           <div style={{ display: "flex", alignItems: "center", gap: "36px" }} className="desktop-nav">
             {navLinks.map((l) => (
-              l.href === "/products" ? (
-                <a key={l.href} href="/products/" onClick={(e) => {
-                  e.preventDefault();
-                  if (window.location.pathname.includes("/products")) {
-                    window.history.pushState({}, "", window.location.pathname.split("?")[0]);
-                    window.dispatchEvent(new PopStateEvent("popstate"));
-                  } else {
-                    window.location.href = "/products/";
-                  }
-                }} style={{
-                  fontFamily: "'Lato', sans-serif",
-                  fontSize: "0.88rem",
-                  fontWeight: 400,
-                  color: "#3D3530",
-                  textDecoration: "none",
-                  letterSpacing: "0.04em",
-                  transition: "color 0.2s",
-                  cursor: "pointer",
-                }}
-                onMouseOver={(e) => (e.currentTarget.style.color = "#A8B5A0")}
-                onMouseOut={(e) => (e.currentTarget.style.color = "#3D3530")}
-                >
-                  {l.label}
-                </a>
-              ) : (
-                <Link key={l.href} href={l.href} style={{
-                  fontFamily: "'Lato', sans-serif",
-                  fontSize: "0.88rem",
-                  fontWeight: 400,
-                  color: "#3D3530",
-                  textDecoration: "none",
-                  letterSpacing: "0.04em",
-                  transition: "color 0.2s",
-                }}
-                onMouseOver={(e) => (e.currentTarget.style.color = "#A8B5A0")}
-                onMouseOut={(e) => (e.currentTarget.style.color = "#3D3530")}
-                >
-                  {l.label}
-                </Link>
-              )
+              <Link key={l.href} href={l.href} style={{
+                fontFamily: "'Lato', sans-serif",
+                fontSize: "0.88rem",
+                fontWeight: 400,
+                color: "#3D3530",
+                textDecoration: "none",
+                letterSpacing: "0.04em",
+                transition: "color 0.2s",
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.color = "#A8B5A0")}
+              onMouseOut={(e) => (e.currentTarget.style.color = "#3D3530")}
+              >
+                {l.label}
+              </Link>
             ))}
             <a
               href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}`}
@@ -149,41 +126,17 @@ export default function Navbar() {
             padding: "16px 0",
           }} className="mobile-nav">
             {navLinks.map((l) => (
-              l.href === "/products" ? (
-                <a key={l.href} href="/products/" onClick={(e) => {
-                  e.preventDefault();
-                  setOpen(false);
-                  if (window.location.pathname.includes("/products")) {
-                    window.history.pushState({}, "", window.location.pathname.split("?")[0]);
-                    window.dispatchEvent(new PopStateEvent("popstate"));
-                  } else {
-                    window.location.href = "/products/";
-                  }
-                }} style={{
-                  display: "block",
-                  padding: "12px 16px",
-                  fontFamily: "'Lato', sans-serif",
-                  fontSize: "0.95rem",
-                  color: "#3D3530",
-                  textDecoration: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                }}>
-                  {l.label}
-                </a>
-              ) : (
-                <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{
-                  display: "block",
-                  padding: "12px 16px",
-                  fontFamily: "'Lato', sans-serif",
-                  fontSize: "0.95rem",
-                  color: "#3D3530",
-                  textDecoration: "none",
-                  borderRadius: "8px",
-                }}>
-                  {l.label}
-                </Link>
-              )
+              <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{
+                display: "block",
+                padding: "12px 16px",
+                fontFamily: "'Lato', sans-serif",
+                fontSize: "0.95rem",
+                color: "#3D3530",
+                textDecoration: "none",
+                borderRadius: "8px",
+              }}>
+                {l.label}
+              </Link>
             ))}
             <a
               href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}`}
@@ -209,13 +162,52 @@ export default function Navbar() {
         )}
       </div>
 
+      <div style={{
+        height: "36px",
+        borderTop: "1px solid rgba(61,53,48,0.08)",
+        background: "linear-gradient(90deg, #E8C4B8 0%, #F2D9D0 45%, #FFF9F5 100%)",
+        display: "flex",
+        alignItems: "center",
+        overflow: "hidden",
+      }}>
+        <div className="sale-strip-track" aria-label="Sale announcement">
+          <span>{SALE_MESSAGE}</span>
+          <span aria-hidden="true">{SALE_MESSAGE}</span>
+        </div>
+      </div>
+
       <style>{`
+        @keyframes sale-strip-scroll {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        .sale-strip-track {
+          display: flex;
+          width: max-content;
+          min-width: 100%;
+          white-space: nowrap;
+          animation: sale-strip-scroll 22s linear infinite;
+          font-family: 'Lato', sans-serif;
+          font-size: 0.84rem;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          color: #3D3530;
+          font-weight: 700;
+        }
+        .sale-strip-track span {
+          display: inline-block;
+          padding-right: 48px;
+        }
         @media (min-width: 768px) {
           .mobile-menu-btn { display: none !important; }
           .mobile-nav { display: none !important; }
         }
         @media (max-width: 767px) {
           .desktop-nav { display: none !important; }
+          .sale-strip-track {
+            font-size: 0.72rem;
+            animation-duration: 18s;
+          }
         }
       `}</style>
     </nav>

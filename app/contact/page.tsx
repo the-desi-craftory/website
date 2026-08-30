@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div style={{ paddingTop: "88px" }}>
+    <div style={{ paddingTop: "124px" }}>
       <div style={{
         background: "linear-gradient(135deg, #FAF7F2 0%, #F2D9D0 100%)",
         padding: "60px 24px", textAlign: "center", borderBottom: "1px solid #E8C4B8",
@@ -79,7 +79,7 @@ export default function ContactPage() {
             Have a custom idea?
           </h2>
           <p style={{ color: "#D4C5B0", lineHeight: 1.7, maxWidth: "500px", margin: "0 auto 32px", fontSize: "1rem" }}>
-            We love making one-of-a-kind pieces. Tell us your favourite colours, the occasion, or share a reference image — and weI love making one-of-a-kind pieces. Tell me your favourite colours, the occasion, or share a reference image — and I&apos;ll make it happen.apos;ll make it happen.
+            We love making one-of-a-kind pieces. Tell us your favourite colours, the occasion, or share a reference image, and we&apos;ll make it happen.
           </p>
           <a
             href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to request a custom handmade piece.\n\nWhat I want: \nColours: \nOccasion: \nBudget: ")}`}

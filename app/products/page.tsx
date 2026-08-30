@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function ProductsPage() {
   return (
-    <div style={{ paddingTop: "88px" }}>
+    <div style={{ paddingTop: "124px" }}>
       <div style={{
         background: "linear-gradient(135deg, #FAF7F2 0%, #F2D9D0 100%)",
         padding: "60px 24px", textAlign: "center", borderBottom: "1px solid #E8C4B8",

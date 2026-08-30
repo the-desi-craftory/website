@@ -87,7 +87,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
                   window.dispatchEvent(new PopStateEvent("popstate"));
                   onClose();
                 } else {
-                  window.location.href = window.location.origin + (window.location.pathname.split("/products")[0]) + `/products/?category=${catParam}`;
+                  window.location.href = `${window.location.origin}/website/products/?category=${catParam}`;
                 }
               }}
               style={{
