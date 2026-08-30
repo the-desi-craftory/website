@@ -22,6 +22,19 @@ export default function ProductCard({ product }: { product: Product }) {
     ? Math.round(((product.originalPrice! - product.discountedPrice) / product.originalPrice!) * 100)
     : 0;
 
+  function openProductModal() {
+    window.history.pushState({ productModalOpen: true }, "", window.location.href);
+    setModalOpen(true);
+  }
+
+  function closeProductModal() {
+    if (window.history.state?.productModalOpen) {
+      window.history.back();
+      return;
+    }
+    setModalOpen(false);
+  }
+
   return (
     <>
       <div className="product-card" style={{
@@ -30,7 +43,7 @@ export default function ProductCard({ product }: { product: Product }) {
         display: "flex", flexDirection: "column",
       }}>
         {/* Image */}
-        <div onClick={() => setModalOpen(true)} style={{
+        <div onClick={openProductModal} style={{
           position: "relative", height: "300px",
           backgroundColor: "#FAF7F2", cursor: "pointer", overflow: "hidden",
         }}>
@@ -96,7 +109,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
         {/* Content */}
         <div style={{ padding: "20px", flex: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
-          <h3 onClick={() => setModalOpen(true)} style={{
+          <h3 onClick={openProductModal} style={{
             fontFamily: "'Playfair Display', serif", fontSize: "1.05rem",
             fontWeight: 600, color: "#3D3530", cursor: "pointer", margin: 0,
           }}>{product.name}</h3>
@@ -159,7 +172,7 @@ export default function ProductCard({ product }: { product: Product }) {
       </div>
 
       {formOpen && <OrderForm product={product} onClose={() => setFormOpen(false)} />}
-      {modalOpen && <ProductModal product={product} onClose={() => setModalOpen(false)} />}
+      {modalOpen && <ProductModal product={product} onClose={closeProductModal} />}
       <style>{`.product-card:hover .quick-view-hint { opacity: 1 !important; }`}</style>
     </>
   );

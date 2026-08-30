@@ -28,10 +28,13 @@ export default function ProductModal({ product, onClose }: { product: Product; o
   useEffect(() => {
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const onPopState = () => onClose();
     window.addEventListener("keydown", onKey);
+    window.addEventListener("popstate", onPopState);
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
+      window.removeEventListener("popstate", onPopState);
     };
   }, [onClose]);
 
