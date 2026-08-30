@@ -2,16 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { BUSINESS_CONFIG } from "@/lib/config";
-
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/products", label: "Products" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
-
-const SALE_MESSAGE =
-  "Jhanmastmi Sale is live.... Flat 25% off on Crochet Products and 15% on rest of the products";
+import { NAV_LINKS, SALE_MESSAGE } from "@/lib/content";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -62,7 +53,7 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <div style={{ display: "flex", alignItems: "center", gap: "36px" }} className="desktop-nav">
-            {navLinks.map((l) => (
+            {NAV_LINKS.map((l) => (
               <Link key={l.href} href={l.href} style={{
                 fontFamily: "'Lato', sans-serif",
                 fontSize: "0.88rem",
@@ -125,7 +116,7 @@ export default function Navbar() {
             borderTop: "1px solid #F2D9D0",
             padding: "16px 0",
           }} className="mobile-nav">
-            {navLinks.map((l) => (
+            {NAV_LINKS.map((l) => (
               <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{
                 display: "block",
                 padding: "12px 16px",

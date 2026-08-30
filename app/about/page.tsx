@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BUSINESS_CONFIG } from "@/lib/config";
+import { ABOUT_CRAFT_STEPS, ABOUT_VALUES } from "@/lib/content";
 import img6 from "../../public/images/i6.png";
 
 export const metadata = {
@@ -8,39 +9,6 @@ export const metadata = {
   description:
     "The story of Mayuri Mehta and Kashmira Shah, co-founders of The Desi Craftory — sisters bringing crochet, mudwork, and handmade art to life.",
 };
-
-const CRAFT_STEPS = [
-  {
-    step: "01",
-    icon: "💡",
-    title: "Inspiration & Sketching",
-    desc: "Every piece begins with an idea — a texture, a colour, a memory. Designs are visualised and planned before the crafting starts.",
-  },
-  {
-    step: "02",
-    icon: "🧵",
-    title: "Gathering Materials",
-    desc: "From premium yarn for crochet to clay and tools for mudwork — careful selection ensures quality, finish, and durability.",
-  },
-  {
-    step: "03",
-    icon: "✂️",
-    title: "Crafting by Hand",
-    desc: "Crochet, mudwork, and other handmade techniques are created stitch-by-stitch and shape-by-shape — always with patience and detail.",
-  },
-  {
-    step: "04",
-    icon: "✨",
-    title: "Details, Drying & Finishing",
-    desc: "Work is refined, dried/finished as required, and checked closely so each artwork looks as beautiful as it feels.",
-  },
-  {
-    step: "05",
-    icon: "📦",
-    title: "Packed with Care",
-    desc: "Each artwork is packed thoughtfully, ready to be gifted or cherished — because the unboxing experience matters.",
-  },
-];
 
 export default function AboutPage() {
   return (
@@ -134,12 +102,7 @@ export default function AboutPage() {
             </h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
-            {[
-              { icon: "🤲", title: "Handcrafted with Love", desc: "Every piece is made by hand — from crochet to mudwork — with care, patience, and true craftsmanship." },
-              { icon: "🌿", title: "Quality Materials", desc: "Carefully chosen supplies, finishes, and tools — so your artwork looks beautiful and lasts longer." },
-              { icon: "💛", title: "Made with Intention", desc: "Nothing is rushed. We create each artwork with attention to detail, one step at a time." },
-              { icon: "🎨", title: "Custom & Personal", desc: "We bring your ideas to life — colours, designs, themes, and preferences — whatever makes it truly yours." },
-            ].map((v) => (
+            {ABOUT_VALUES.map((v) => (
               <div key={v.title} style={{
                 backgroundColor: "#FAF7F2",
                 border: "1px solid #F2D9D0",
@@ -168,8 +131,8 @@ export default function AboutPage() {
             </h2>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-            {CRAFT_STEPS.map((s, i) => (
-                <div key={s.step} style={{ display: "flex", gap: "24px", alignItems: "flex-start", paddingBottom: i < CRAFT_STEPS.length - 1 ? "32px" : "0" }}>
+            {ABOUT_CRAFT_STEPS.map((s, i) => (
+                <div key={s.step} style={{ display: "flex", gap: "24px", alignItems: "flex-start", paddingBottom: i < ABOUT_CRAFT_STEPS.length - 1 ? "32px" : "0" }}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
                   <div style={{
                     width: "52px", height: "52px", borderRadius: "50%",
@@ -179,7 +142,7 @@ export default function AboutPage() {
                   }}>
                     {s.icon}
                   </div>
-                  {i < CRAFT_STEPS.length - 1 && (
+                  {i < ABOUT_CRAFT_STEPS.length - 1 && (
                     <div style={{ width: "2px", flex: 1, backgroundColor: "#F2D9D0", marginTop: "8px", minHeight: "32px" }} />
                   )}
                 </div>

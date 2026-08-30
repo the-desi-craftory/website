@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BUSINESS_CONFIG } from "@/lib/config";
+import { FOOTER_QUICK_LINKS, WHATSAPP_TEMPLATES } from "@/lib/content";
 
 export default function Footer() {
   return (
@@ -25,12 +26,7 @@ export default function Footer() {
             <h4 style={{ fontFamily: "'Playfair Display', serif", color: "#FFF9F5", marginBottom: "16px", fontSize: "1rem", marginTop: 0 }}>
               Quick Links
             </h4>
-            {[
-              { href: "/", label: "Home" },
-              { href: "/products", label: "All Products" },
-              { href: "/about", label: "About" },
-              { href: "/contact", label: "Contact" },
-            ].map((l) => (
+            {FOOTER_QUICK_LINKS.map((l) => (
               <Link key={l.href} href={l.href} className="footer-link">
                 {l.label}
               </Link>
@@ -66,7 +62,7 @@ export default function Footer() {
               Want something unique? Share your vision and we&apos;ll crochet it just for you.
             </p>
             <a
-              href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to place a custom crochet order. Here are my requirements:")}`}
+              href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent(WHATSAPP_TEMPLATES.footerCustomOrder)}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{

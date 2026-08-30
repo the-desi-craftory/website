@@ -1,10 +1,11 @@
 "use client";
 import { BUSINESS_CONFIG } from "@/lib/config";
+import { WHATSAPP_TEMPLATES } from "@/lib/content";
 
 export default function WhatsAppFloat() {
   return (
     <a
-      href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent("Hi! I'm interested in your crochet products.")}`}
+      href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent(WHATSAPP_TEMPLATES.floatInterested)}`}
       target="_blank"
       rel="noopener noreferrer"
       className="wa-pulse"

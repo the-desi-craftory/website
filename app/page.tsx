@@ -6,6 +6,12 @@ import { fetchProducts, getFeaturedProducts, getCategories } from "@/lib/product
 import { Product } from "@/lib/types";
 import ProductCard from "@/components/ProductCard";
 import { BUSINESS_CONFIG } from "@/lib/config";
+import {
+  HOME_ABOUT_FEATURES,
+  HOME_CATEGORY_ICONS,
+  HOME_TRUST_BADGES,
+  WHATSAPP_TEMPLATES,
+} from "@/lib/content";
 
 import img1 from "../public/images/i1.png";
 import img2 from "../public/images/i2.png";
@@ -23,21 +29,6 @@ function YarnDivider() {
     </div>
   );
 }
-
-
-const CATEGORY_ICONS: Record<string, string> = {
-  "Bottle Sleeve": "🧴",
-  "Car Accessories": "🚗",
-  "Crochet Flowers & Decor": "🌸",
-  "Home Accessories": "🏠",
-  "Keychains & Charms": "🔑",
-  "Personal Accessories": "🎀",
-  "Custom Art": "✂️",
-  "Tech Accessories": "📱",
-  "Wall Clocks": "🕒",
-  "Wall Decor & Lippan Art": "🖼️",
-};
-
 
 const WA_ICON = (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -86,13 +77,13 @@ export default function HomePage() {
             </p>
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
               <Link href="/products" className="btn-dark">Shop Collection</Link>
-              <a href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent("Hi! I'd love to see your crochet collection.")}`}
+              <a href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent(WHATSAPP_TEMPLATES.homeCollection)}`}
                 target="_blank" rel="noopener noreferrer" className="btn-wa">
                 {WA_ICON} Chat with us
               </a>
             </div>
             <div style={{ display: "flex", gap: "24px", marginTop: "48px", flexWrap: "wrap" }}>
-              {[{ icon: "🤲", label: "100% Handmade" }, { icon: "💛", label: "Made with Love" }, { icon: "✈️", label: "Ships Pan-India" }].map((b) => (
+              {HOME_TRUST_BADGES.map((b) => (
                 <div key={b.label} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <span style={{ fontSize: "1.1rem" }}>{b.icon}</span>
                   <span style={{ fontSize: "0.8rem", color: "#8A7F7A", fontWeight: 700 }}>{b.label}</span>
@@ -135,7 +126,7 @@ export default function HomePage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: "16px" }}>
               {categories.map((cat) => (
                 <Link key={cat} href={`/products?category=${encodeURIComponent(cat)}`} className="category-card">
-                  <div style={{ fontSize: "2rem", marginBottom: "10px" }}>{CATEGORY_ICONS[cat] || "🎀"}</div>
+                  <div style={{ fontSize: "2rem", marginBottom: "10px" }}>{HOME_CATEGORY_ICONS[cat] || "🎀"}</div>
                   <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "0.95rem", color: "#3D3530", fontWeight: 600 }}>{cat}</div>
                 </Link>
               ))}
@@ -203,12 +194,7 @@ export default function HomePage() {
               I use only premium quality cotton yarn to ensure durability and softness. Every product is made to order — fresh, personal, and made just for you.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "36px" }}>
-              {[
-                { icon: "🌿", title: "Natural Materials", desc: "Premium cotton yarn" },
-                { icon: "⏱️", title: "Made to Order", desc: "Fresh for every customer" },
-                { icon: "🎨", title: "Custom Options", desc: "Pick your colour & size" },
-                { icon: "📦", title: "Safe Packaging", desc: "Delivered with care" },
-              ].map((f) => (
+              {HOME_ABOUT_FEATURES.map((f) => (
                 <div key={f.title} style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
                   <span style={{ fontSize: "1.3rem" }}>{f.icon}</span>
                   <div>
@@ -234,7 +220,7 @@ export default function HomePage() {
             Custom orders are our speciality. Share your idea — colours, size, occasion — and we&apos;ll bring it to life, stitch by stitch.
           </p>
           <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
-            <a href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to place a custom crochet order.")}`}
+            <a href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent(WHATSAPP_TEMPLATES.homeCustomOrder)}`}
               target="_blank" rel="noopener noreferrer" className="btn-wa">
               {WA_ICON} Request Custom Order
             </a>

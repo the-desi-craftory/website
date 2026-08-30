@@ -1,4 +1,5 @@
 import { BUSINESS_CONFIG } from "@/lib/config";
+import { CONTACT_FAQS, WHATSAPP_TEMPLATES } from "@/lib/content";
 
 export const metadata = {
   title: "Contact — The Desi Craftory",
@@ -26,7 +27,7 @@ export default function ContactPage() {
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "80px 24px" }}>
         {/* Contact cards */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "24px", marginBottom: "64px" }}>
-          <a href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to get in touch about your handmade products.")}`}
+          <a href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent(WHATSAPP_TEMPLATES.contactIntro)}`}
             target="_blank" rel="noopener noreferrer" className="contact-card contact-card--wa">
             <div className="contact-icon" style={{ backgroundColor: "#25D366" }}>
               <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
@@ -82,7 +83,7 @@ export default function ContactPage() {
             We love making one-of-a-kind pieces. Tell us your favourite colours, the occasion, or share a reference image, and we&apos;ll make it happen.
           </p>
           <a
-            href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to request a custom handmade piece.\n\nWhat I want: \nColours: \nOccasion: \nBudget: ")}`}
+            href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent(WHATSAPP_TEMPLATES.contactCustomOrder)}`}
             target="_blank" rel="noopener noreferrer"
             style={{
               backgroundColor: "#25D366", color: "#fff",
@@ -105,12 +106,7 @@ export default function ContactPage() {
             Frequently Asked Questions
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            {[
-              { q: "How long does delivery take?", a: "Most orders are dispatched within 3–5 business days. Delivery takes an additional 2–7 days depending on your location across India." },
-              { q: "Can I customise the colours?", a: "Absolutely! Just mention your preferred colours when you WhatsApp us and we'll do our best to accommodate. We have a wide range of yarn colours available." },
-              { q: "Do you accept bulk or gifting orders?", a: "Yes! We love creating personalised gift sets and bulk orders for events like baby showers, weddings, and corporate gifting. Message us for special pricing." },
-              { q: "How do I care for my handmade product?", a: "Hand wash gently in cold water with mild soap. Lay flat to dry. Avoid wringing or machine washing to preserve the shape and texture." },
-            ].map((faq) => (
+            {CONTACT_FAQS.map((faq) => (
               <div key={faq.q} style={{ backgroundColor: "#FFF9F5", border: "1px solid #F2D9D0", borderRadius: "16px", padding: "24px 28px" }}>
                 <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1rem", color: "#3D3530", margin: "0 0 10px", fontWeight: 600 }}>{faq.q}</h4>
                 <p style={{ fontSize: "0.9rem", color: "#8A7F7A", lineHeight: 1.7, margin: 0 }}>{faq.a}</p>
