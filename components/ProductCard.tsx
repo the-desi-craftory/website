@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Product } from "@/lib/types";
 import ProductModal from "./ProductModal";
@@ -23,12 +23,29 @@ export default function ProductCard({ product }: { product: Product }) {
     : 0;
 
   function openProductModal() {
+    window.history.pushState(
+      { ...window.history.state, productModalOpen: true },
+      "",
+      window.location.href
+    );
     setModalOpen(true);
   }
 
   function closeProductModal() {
+    if (window.history.state?.productModalOpen) {
+      window.history.back();
+      return;
+    }
     setModalOpen(false);
   }
+
+  useEffect(() => {
+    if (!modalOpen) return;
+
+    const onPopState = () => setModalOpen(false);
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [modalOpen]);
 
   return (
     <>

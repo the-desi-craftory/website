@@ -111,11 +111,26 @@ export default function ProductModal({ product, onClose }: { product: Product; o
 
           {/* Details side */}
           <div className="modal-details" style={{ padding: "28px", display: "flex", flexDirection: "column", gap: "12px" }}>
-            <button onClick={onClose} aria-label="Close product details" title="Close product details" style={{
-              alignSelf: "flex-end", background: "#FCF9F5", border: "1px solid #E7C3B5",
-              borderRadius: "50%", width: "32px", height: "32px", cursor: "pointer",
-              fontSize: "1rem", display: "flex", alignItems: "center", justifyContent: "center", color: "#746B65",
-            }}>✕</button>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Go back from product details"
+                title="Go back"
+                style={{
+                  background: "transparent", border: "none", padding: "8px 0",
+                  color: "#5B6042", cursor: "pointer", fontSize: "0.78rem",
+                  fontWeight: 700, letterSpacing: "0.03em",
+                }}
+              >
+                ← Back
+              </button>
+              <button onClick={onClose} aria-label="Close product details" title="Close product details" style={{
+                background: "#FCF9F5", border: "1px solid #E7C3B5",
+                borderRadius: "50%", width: "32px", height: "32px", cursor: "pointer",
+                fontSize: "1rem", display: "flex", alignItems: "center", justifyContent: "center", color: "#746B65",
+              }}>✕</button>
+            </div>
 
             {/* Category + ID */}
             <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
