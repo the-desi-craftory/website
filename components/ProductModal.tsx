@@ -51,13 +51,17 @@ export default function ProductModal({ product, onClose }: { product: Product; o
           boxShadow: "0 24px 64px rgba(61,53,48,0.3)",
           display: "grid", gridTemplateColumns: "1fr 1fr",
         }}>
+          <div className="modal-mobile-header">
+            <button type="button" onClick={onClose} aria-label="Go back from product details">← Back</button>
+            <button type="button" onClick={onClose} aria-label="Close product details">✕</button>
+          </div>
           {/* Image side */}
           <div className="modal-image" style={{
             display: "flex", flexDirection: "column",
             backgroundColor: "#FCF9F5",
           }}>
             {/* Image */}
-            <div style={{
+            <div className="modal-image-frame" style={{
               position: "relative",
               width: "100%",
               aspectRatio: "4 / 5",
@@ -111,7 +115,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
 
           {/* Details side */}
           <div className="modal-details" style={{ padding: "28px", display: "flex", flexDirection: "column", gap: "12px" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
+            <div className="modal-details-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
               <button
                 type="button"
                 onClick={onClose}
@@ -155,7 +159,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
 
             {/* Make time */}
             {product.makeTime && (
-              <div style={{
+              <div className="modal-make-time" style={{
                 display: "flex", alignItems: "center", gap: "8px",
                 backgroundColor: "#E8E9C9", borderRadius: "10px", padding: "10px 14px",
               }}>
@@ -168,7 +172,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
 
             {/* Order fields info */}
             {fieldList.length > 0 && (
-              <div style={{
+              <div className="modal-order-fields" style={{
                 backgroundColor: "#F4E7D7", borderRadius: "10px", padding: "10px 14px",
                 border: "1px solid #D9B27F",
               }}>
@@ -236,39 +240,96 @@ export default function ProductModal({ product, onClose }: { product: Product; o
         <style>{`
           @media (max-width: 600px) { 
             .modal-overlay {
-              padding: 12px !important;
-              align-items: flex-start !important;
+              padding: 20px 16px !important;
+              align-items: center !important;
+              justify-content: center !important;
               overflow-y: auto;
             }
             .modal-grid { 
               grid-template-columns: 1fr !important; 
               width: 100% !important;
-              max-width: 420px !important;
-              max-height: calc(100dvh - 24px) !important;
+              max-width: 360px !important;
+              height: min(calc(100dvh - 40px), 720px) !important;
+              max-height: calc(100dvh - 40px) !important;
+              aspect-ratio: 4 / 8 !important;
               overflow-y: auto !important;
               overflow-x: hidden !important;
               min-width: 0 !important;
+              min-height: 0 !important;
+              border-radius: 16px !important;
             } 
             .modal-image {
-              aspect-ratio: 5 / 4 !important;
               width: 100% !important;
               min-width: 0 !important;
+            }
+            .modal-mobile-header {
+              display: flex !important;
+              align-items: center;
+              justify-content: space-between;
+              padding: 8px 14px;
+              background: #F8F1EA;
+              border-bottom: 1px solid #E7C3B5;
+            }
+            .modal-mobile-header button {
+              background: transparent;
+              border: 0;
+              padding: 6px 0;
+              color: #5B6042;
+              font-size: 0.68rem;
+              font-weight: 700;
+            }
+            .modal-mobile-header button:last-child {
+              font-size: 0.82rem;
+              padding: 4px 8px;
+            }
+            .modal-image-frame {
+              height: auto !important;
+              aspect-ratio: 4 / 5 !important;
             }
             .modal-grid > * {
               min-width: 0 !important;
               max-width: 100% !important;
             }
             .modal-details {
-              padding: 18px !important;
-              gap: 10px !important;
+              padding: 14px 18px 16px !important;
+              gap: 6px !important;
             }
+            .modal-details h2 { font-size: 0.8rem !important; }
+            .modal-details .product-description { font-size: 0.58rem !important; }
+            .modal-details > div:first-child button { font-size: 0.55rem !important; }
+            .modal-details > div:first-child button:last-child {
+              width: 28px !important;
+              height: 28px !important;
+              font-size: 0.66rem !important;
+            }
+            .modal-make-time,
+            .modal-order-fields {
+              padding: 8px 10px !important;
+            }
+            .modal-make-time div,
+            .modal-order-fields div {
+              font-size: 0.46rem !important;
+            }
+            .modal-make-time div div,
+            .modal-order-fields span {
+              font-size: 0.58rem !important;
+            }
+            .modal-details .product-modal-cta {
+              padding: 10px !important;
+              font-size: 0.62rem !important;
+            }
+            .modal-details > div:first-child { margin-bottom: 2px; }
+            .modal-details-header { display: none !important; }
+            .modal-details > div { max-width: 100%; }
             .product-modal-cta {
               position: sticky;
-              bottom: 0;
+              bottom: 10px;
+              margin-bottom: 8px;
               box-shadow: 0 -8px 18px rgba(61,53,48,0.08);
               z-index: 2;
             }
           }
+          .modal-mobile-header { display: none; }
         `}</style>
       </div>
       {formOpen && <OrderForm product={product} onClose={() => setFormOpen(false)} />}
