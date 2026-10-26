@@ -133,6 +133,7 @@ export default function OrderForm({ product, onClose }: { product: Product; onCl
     <div
       onClick={onClose}
       role="presentation"
+      className="checkout-overlay"
       style={{
         position: "fixed", inset: 0, backgroundColor: "rgba(61,53,48,0.72)",
         backdropFilter: "blur(4px)", zIndex: 1100, display: "flex",
@@ -221,7 +222,7 @@ export default function OrderForm({ product, onClose }: { product: Product; onCl
                   <label htmlFor="order-pincode" style={labelStyle}>Pincode *</label>
                   <input id="order-pincode" value={form.pincode} onChange={(event) => updateField("pincode", event.target.value.replace(/\D/g, "").slice(0, 6))} type="text" inputMode="numeric" autoComplete="postal-code" placeholder="6-digit pincode" style={inputStyle} />
                 </div>
-                <button type="button" onClick={() => setStep(2)} disabled={!stepOneValid} style={{ ...primaryButtonStyle, opacity: stepOneValid ? 1 : 0.55 }}>
+                <button type="button" className="checkout-submit" onClick={() => setStep(2)} disabled={!stepOneValid} style={{ ...primaryButtonStyle, opacity: stepOneValid ? 1 : 0.55 }}>
                   Continue to review
                 </button>
                 {!stepOneValid && <p style={validationStyle}>Please complete your name, phone, address, pincode, and any product options.</p>}
@@ -252,7 +253,7 @@ export default function OrderForm({ product, onClose }: { product: Product; onCl
                 <div style={{ backgroundColor: "#F4E7D7", border: "1px solid #D9B27F", borderRadius: "10px", padding: "11px 13px", marginBottom: "16px", fontSize: "0.8rem", color: "#80582B", lineHeight: 1.5 }}>
                   Shipping is calculated separately from your pincode. We will confirm the exact total before payment.
                 </div>
-                <a href={valid ? buildUrl() : undefined} target="_blank" rel="noopener noreferrer" onClick={(event) => { if (!valid) event.preventDefault(); else finishCheckout(); }} style={{ ...primaryButtonStyle, display: "flex", textDecoration: "none", backgroundColor: valid ? "#25D366" : "#B4B86F", cursor: valid ? "pointer" : "not-allowed" }}>
+                <a className="checkout-submit" href={valid ? buildUrl() : undefined} target="_blank" rel="noopener noreferrer" onClick={(event) => { if (!valid) event.preventDefault(); else finishCheckout(); }} style={{ ...primaryButtonStyle, display: "flex", textDecoration: "none", backgroundColor: valid ? "#1F6040" : "#B4B86F", cursor: valid ? "pointer" : "not-allowed" }}>
                   Review order in WhatsApp
                 </a>
                 <p style={{ ...helperStyle, textAlign: "center", marginTop: "10px" }}>Your message will be prepared. Tap Send in WhatsApp to submit your order.</p>
@@ -263,7 +264,113 @@ export default function OrderForm({ product, onClose }: { product: Product; onCl
       </div>
       <style>{`
         @media (max-width: 600px) {
-          .checkout-dialog { border-radius: 18px 18px 0 0 !important; align-self: flex-end; max-height: 96vh !important; }
+          .checkout-overlay {
+            padding: 20px 16px !important;
+            align-items: center !important;
+            justify-content: center !important;
+            overflow-y: auto !important;
+          }
+          .checkout-dialog {
+            width: 100% !important;
+            max-width: 360px !important;
+            height: min(calc(100dvh - 40px), 720px) !important;
+            max-height: calc(100dvh - 40px) !important;
+            aspect-ratio: 4 / 8 !important;
+            border-radius: 16px !important;
+            padding: 14px 18px 16px !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+          }
+          .checkout-dialog > div:first-child {
+            gap: 10px !important;
+            margin-bottom: 10px !important;
+          }
+          .checkout-dialog > div:first-child > button {
+            width: 28px !important;
+            height: 28px !important;
+            font-size: 0.66rem !important;
+          }
+          .checkout-dialog h2 {
+            font-size: 0.8rem !important;
+            line-height: 1.3 !important;
+          }
+          .checkout-dialog > div:first-child p {
+            font-size: 0.55rem !important;
+            margin-bottom: 4px !important;
+          }
+          .checkout-dialog .checkout-progress {
+            height: 4px !important;
+            margin-bottom: 12px !important;
+          }
+          .checkout-dialog label,
+          .checkout-dialog legend {
+            font-size: 0.72rem !important;
+            margin-bottom: 4px !important;
+          }
+          .checkout-dialog input,
+          .checkout-dialog textarea {
+            padding: 10px 12px !important;
+            border-radius: 8px !important;
+          }
+          .checkout-dialog textarea {
+            min-height: 56px;
+          }
+          .checkout-dialog small,
+          .checkout-dialog p {
+            font-size: 0.68rem !important;
+            line-height: 1.45 !important;
+          }
+          .checkout-dialog strong {
+            font-size: 0.78rem;
+          }
+          .checkout-dialog > div:nth-of-type(3) {
+            padding: 10px 12px !important;
+            margin-bottom: 12px !important;
+            border-radius: 10px !important;
+          }
+          .checkout-dialog > div:nth-of-type(3) > div > div:first-child div:first-child {
+            font-size: 0.78rem !important;
+          }
+          .checkout-dialog > div:nth-of-type(3) > div > div:first-child div:last-child {
+            font-size: 0.68rem !important;
+          }
+          .checkout-dialog > div:nth-of-type(3) button {
+            width: 28px !important;
+            height: 28px !important;
+            font-size: 1rem !important;
+          }
+          .checkout-dialog fieldset label {
+            padding: 9px 10px !important;
+            gap: 8px !important;
+          }
+          .checkout-dialog fieldset label strong {
+            font-size: 0.72rem !important;
+          }
+          .checkout-dialog fieldset label small {
+            font-size: 0.62rem !important;
+          }
+          .checkout-dialog .checkout-submit {
+            min-height: 42px !important;
+            padding: 10px !important;
+            border-radius: 10px !important;
+            font-size: 0.72rem !important;
+          }
+          .checkout-dialog > div[style*="text-align: center"] {
+            padding-top: 14px !important;
+          }
+          .checkout-dialog > div[style*="text-align: center"] button {
+            min-height: 42px !important;
+            font-size: 0.72rem !important;
+          }
+          .checkout-submit {
+            position: sticky;
+            bottom: 10px;
+            z-index: 2;
+            margin-bottom: 8px;
+            box-shadow: 0 -8px 18px rgba(61,53,48,0.08);
+          }
         }
       `}</style>
     </div>

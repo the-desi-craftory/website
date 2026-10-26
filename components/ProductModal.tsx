@@ -323,8 +323,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
             .modal-details > div { max-width: 100%; }
             .product-modal-cta {
               position: sticky;
-              bottom: 10px;
-              margin-bottom: 8px;
+              bottom: 0;
               box-shadow: 0 -8px 18px rgba(61,53,48,0.08);
               z-index: 2;
             }
