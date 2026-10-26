@@ -192,6 +192,14 @@ No code changes needed. Ever.
 - ✅ Floating WhatsApp button on all pages
 - ✅ Custom order request flow
 - ✅ Demo products when Sheets is not configured
+- ✅ Two-step mobile checkout with quantity, phone, pincode, payment preference, and WhatsApp confirmation
+- ✅ Checkout drafts saved only in the shopper's browser (localStorage); no customer details are sent to this site
+
+### Checkout privacy and static hosting
+
+This site is exported as static files for GitHub Pages. It does not have a server-side checkout, database, account system, or analytics endpoint. During checkout, incomplete form details are saved only in the visitor's browser so an accidental refresh does not erase the form. The draft is removed when the visitor opens the prepared WhatsApp order message.
+
+The final order is intentionally handed off to WhatsApp. Customers must tap **Send** in WhatsApp, and the business confirms the final price, shipping cost, delivery date, and payment instructions there. Do not collect card, UPI PIN, password, or other sensitive payment credentials in this form.
 
 ---
 
