@@ -501,11 +501,15 @@ button:active, a:active {
   .hero-grid h1 { font-size: clamp(2.35rem, 12vw, 3.2rem) !important; margin-bottom: 16px !important; }
   .hero-grid p { font-size: 1rem !important; line-height: 1.65 !important; margin-bottom: 24px !important; }
   .hero-grid .btn-dark, .hero-grid .btn-wa { width: 100%; }
-  .hero-mosaic { height: 248px !important; margin: 0 -4px; }
-  .hero-mosaic > div:nth-child(1) { width: 64% !important; height: 72% !important; }
-  .hero-mosaic > div:nth-child(2) { width: 38% !important; height: 48% !important; }
-  .hero-mosaic > div:nth-child(3), .hero-mosaic > div:nth-child(4) { display: none; }
-  .hero-mosaic > div:last-child { padding: 12px 14px !important; }
+  .hero-mosaic { width: 100% !important; height: 260px !important; margin: 0 -4px; flex: 0 0 auto; }
+  .hero-photo { display: block !important; width: 42% !important; height: 42% !important; border-radius: 12px !important; }
+  .hero-photo--one { top: 4% !important; left: 4% !important; }
+  .hero-photo--two { top: 4% !important; right: 4% !important; }
+  .hero-photo--three { bottom: 4% !important; left: 4% !important; }
+  .hero-photo--four { bottom: 4% !important; right: 4% !important; }
+  .hero-mosaic > div:last-child { padding: 10px 12px !important; }
+  .hero-mosaic > div:last-child div:first-child { font-size: 0.72rem !important; }
+  .hero-mosaic > div:last-child div:last-child { font-size: 0.62rem !important; }
   .trust-row { gap: 8px; }
   .trust-item { font-size: 0.7rem; }
   .filters-bar {

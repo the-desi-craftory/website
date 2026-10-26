@@ -94,16 +94,16 @@ export default function HomePage() {
 
           {/* Hero image mosaic */}
           <div style={{ position: "relative", height: "480px" }} className="hero-mosaic">
-            <div style={{ position: "absolute", top: 0, left: 0, width: "58%", height: "58%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
+            <div className="hero-photo hero-photo--one" style={{ position: "absolute", top: 0, left: 0, width: "58%", height: "58%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
               <Image src={img2} alt="Crochet product" fill style={{ objectFit: "cover" }} />
             </div>
-            <div style={{ position: "absolute", top: "10%", right: 0, width: "40%", height: "44%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
+            <div className="hero-photo hero-photo--two" style={{ position: "absolute", top: "10%", right: 0, width: "40%", height: "44%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
               <Image src={img3} alt="Crochet product" fill style={{ objectFit: "cover" }} />
             </div>
-            <div style={{ position: "absolute", bottom: 0, left: "8%", width: "44%", height: "40%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
+            <div className="hero-photo hero-photo--three" style={{ position: "absolute", bottom: 0, left: "8%", width: "44%", height: "40%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
               <Image src={img4} alt="Crochet product" fill style={{ objectFit: "cover" }} />
             </div>
-            <div style={{ position: "absolute", bottom: "6%", right: 0, width: "38%", height: "38%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
+            <div className="hero-photo hero-photo--four" style={{ position: "absolute", bottom: "6%", right: 0, width: "38%", height: "38%", borderRadius: "20px", overflow: "hidden", boxShadow: "0 12px 40px rgba(61,53,48,0.14)" }}>
               <Image src={img5} alt="Crochet product" fill style={{ objectFit: "cover" }} />
             </div>
             <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", backgroundColor: "#F8F1EA", borderRadius: "16px", padding: "14px 20px", boxShadow: "0 8px 32px rgba(61,53,48,0.18)", textAlign: "center", border: "1px solid #E7C3B5", zIndex: 10 }}>
@@ -160,7 +160,7 @@ export default function HomePage() {
               <p style={{ color: "#746B65", margin: 0 }}>Products are temporarily unavailable. Please chat with us for today&apos;s collection.</p>
             </div>
           ) : featured.length > 0 ? (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "24px" }}>
+            <div className="product-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "24px" }}>
               {featured.map((p) => <ProductCard key={p.id} product={p} />)}
             </div>
           ) : (

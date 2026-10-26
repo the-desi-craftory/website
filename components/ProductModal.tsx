@@ -40,7 +40,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
 
   return createPortal(
     <>
-      <div onClick={onClose} style={{
+      <div className="modal-overlay" onClick={onClose} style={{
         position: "fixed", inset: 0, backgroundColor: "rgba(61,53,48,0.72)",
         backdropFilter: "blur(4px)", zIndex: 1000,
         display: "flex", alignItems: "center", justifyContent: "center", padding: "20px",
@@ -52,7 +52,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
           display: "grid", gridTemplateColumns: "1fr 1fr",
         }}>
           {/* Image side */}
-          <div style={{
+          <div className="modal-image" style={{
             display: "flex", flexDirection: "column",
             backgroundColor: "#FCF9F5",
           }}>
@@ -110,7 +110,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
           </div>
 
           {/* Details side */}
-          <div style={{ padding: "28px", display: "flex", flexDirection: "column", gap: "12px" }}>
+          <div className="modal-details" style={{ padding: "28px", display: "flex", flexDirection: "column", gap: "12px" }}>
             <button onClick={onClose} aria-label="Close product details" title="Close product details" style={{
               alignSelf: "flex-end", background: "#FCF9F5", border: "1px solid #E7C3B5",
               borderRadius: "50%", width: "32px", height: "32px", cursor: "pointer",
@@ -220,11 +220,33 @@ export default function ProductModal({ product, onClose }: { product: Product; o
 
         <style>{`
           @media (max-width: 600px) { 
+            .modal-overlay {
+              padding: 12px !important;
+              align-items: flex-start !important;
+              overflow-y: auto;
+            }
             .modal-grid { 
               grid-template-columns: 1fr !important; 
-              max-height: 92vh !important;
+              width: 100% !important;
+              max-width: 420px !important;
+              max-height: calc(100dvh - 24px) !important;
               overflow-y: auto !important;
+              overflow-x: hidden !important;
+              min-width: 0 !important;
             } 
+            .modal-image {
+              aspect-ratio: 5 / 4 !important;
+              width: 100% !important;
+              min-width: 0 !important;
+            }
+            .modal-grid > * {
+              min-width: 0 !important;
+              max-width: 100% !important;
+            }
+            .modal-details {
+              padding: 18px !important;
+              gap: 10px !important;
+            }
             .product-modal-cta {
               position: sticky;
               bottom: 0;
