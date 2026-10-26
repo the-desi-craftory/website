@@ -32,20 +32,20 @@ export default function Navbar() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "72px" }}>
           {/* Logo */}
           <Link href="/" style={{ textDecoration: "none" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <div style={{ fontSize: "28px" }}>🧶</div>
+            <div className="brand-lockup" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span className="brand-mark" aria-hidden="true">🧶</span>
               <div>
-                <div style={{
+                <div className="brand-name" style={{
                   fontFamily: "'Playfair Display', serif",
                   fontSize: "1.3rem",
                   fontWeight: 600,
-                  color: "#3D3530",
+                  color: "#3F352D",
                   lineHeight: 1.1
                 }}>
                   {BUSINESS_CONFIG.name}
                 </div>
-                <div style={{ fontSize: "0.65rem", color: "#8A7F7A", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                  Handcrafted with love
+                <div className="brand-tagline" style={{ fontSize: "0.65rem", color: "#746B65", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                  Handcrafted with care
                 </div>
               </div>
             </div>
@@ -58,13 +58,13 @@ export default function Navbar() {
                 fontFamily: "'Lato', sans-serif",
                 fontSize: "0.88rem",
                 fontWeight: 400,
-                color: "#3D3530",
+                color: "#3F352D",
                 textDecoration: "none",
                 letterSpacing: "0.04em",
                 transition: "color 0.2s",
               }}
-              onMouseOver={(e) => (e.currentTarget.style.color = "#A8B5A0")}
-              onMouseOut={(e) => (e.currentTarget.style.color = "#3D3530")}
+              onMouseOver={(e) => (e.currentTarget.style.color = "#B7B97A")}
+              onMouseOut={(e) => (e.currentTarget.style.color = "#3F352D")}
               >
                 {l.label}
               </Link>
@@ -74,10 +74,10 @@ export default function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                backgroundColor: "#A8B5A0",
+                backgroundColor: "#B7B97A",
                 color: "#fff",
                 padding: "10px 22px",
-                borderRadius: "50px",
+                borderRadius: "6px",
                 fontFamily: "'Lato', sans-serif",
                 fontSize: "0.85rem",
                 fontWeight: 700,
@@ -85,8 +85,8 @@ export default function Navbar() {
                 transition: "background-color 0.2s",
                 letterSpacing: "0.02em",
               }}
-              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#7A8F71")}
-              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#A8B5A0")}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#5B6042")}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#B7B97A")}
             >
               Order Now
             </a>
@@ -95,25 +95,27 @@ export default function Navbar() {
           {/* Hamburger */}
           <button
             onClick={() => setOpen(!open)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
             className="mobile-menu-btn"
             style={{
               background: "none",
               border: "none",
               cursor: "pointer",
               padding: "8px",
-              color: "#3D3530",
+              color: "#3F352D",
               fontSize: "1.5rem",
             }}
           >
-            {open ? "✕" : "☰"}
+            {open ? "Close" : "Menu"}
           </button>
         </div>
 
         {/* Mobile menu */}
         {open && (
           <div style={{
-            backgroundColor: "#FFF9F5",
-            borderTop: "1px solid #F2D9D0",
+            backgroundColor: "#F8F1EA",
+            borderTop: "1px solid #E7C3B5",
             padding: "16px 0",
           }} className="mobile-nav">
             {NAV_LINKS.map((l) => (
@@ -122,7 +124,7 @@ export default function Navbar() {
                 padding: "12px 16px",
                 fontFamily: "'Lato', sans-serif",
                 fontSize: "0.95rem",
-                color: "#3D3530",
+                color: "#3F352D",
                 textDecoration: "none",
                 borderRadius: "8px",
               }}>
@@ -137,10 +139,10 @@ export default function Navbar() {
               style={{
                 display: "block",
                 margin: "12px 16px 0",
-                backgroundColor: "#A8B5A0",
+                backgroundColor: "#B7B97A",
                 color: "#fff",
                 padding: "12px 22px",
-                borderRadius: "50px",
+                borderRadius: "6px",
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 700,
                 textDecoration: "none",
@@ -156,7 +158,7 @@ export default function Navbar() {
       <div style={{
         height: "36px",
         borderTop: "1px solid rgba(61,53,48,0.08)",
-        background: "linear-gradient(90deg, #E8C4B8 0%, #F2D9D0 45%, #FFF9F5 100%)",
+        background: "linear-gradient(90deg, #C98F7D 0%, #E7C3B5 45%, #F8F1EA 100%)",
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
@@ -181,7 +183,7 @@ export default function Navbar() {
           font-family: 'Lato', sans-serif;
           font-size: 0.84rem;
           letter-spacing: 0.05em;
-          color: #3D3530;
+          color: #3F352D;
           font-weight: 700;
         }
         .sale-strip-track span {

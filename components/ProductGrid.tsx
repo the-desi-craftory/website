@@ -18,13 +18,16 @@ export default function ProductGrid() {
   const [products, setProducts] = useState<Product[]>([]);
   const [shuffledProducts, setShuffledProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
-    fetchProducts().then((data) => {
-      setProducts(data);
-      setShuffledProducts(shuffle(data)); // shuffle once on load, stays stable
-      setLoading(false);
-    });
+    fetchProducts()
+      .then((data) => {
+        setProducts(data);
+        setShuffledProducts(shuffle(data));
+      })
+      .catch(() => setLoadError(true))
+      .finally(() => setLoading(false));
   }, []);
 
   const categories = useMemo(() => {
@@ -69,9 +72,25 @@ export default function ProductGrid() {
 
   if (loading) {
     return (
-      <div style={{ textAlign: "center", padding: "80px 20px" }}>
-        <div style={{ fontSize: "3rem", marginBottom: "16px" }}>🧶</div>
-        <p style={{ color: "#8A7F7A" }}>Loading products…</p>
+      <div className="skeleton-grid" aria-label="Loading products">
+        {[1, 2, 3, 4].map((item) => (
+          <div className="product-skeleton" key={item}>
+            <div className="skeleton-block skeleton-image" />
+            <div className="skeleton-block skeleton-line skeleton-line--wide" />
+            <div className="skeleton-block skeleton-line" />
+            <div className="skeleton-block skeleton-button" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div style={{ textAlign: "center", padding: "64px 20px", backgroundColor: "#F8F1EA", borderRadius: "20px", border: "1px solid #E7C3B5" }}>
+      <div className="empty-state-mark" aria-hidden="true" />
+        <h3 style={{ fontFamily: "'Playfair Display', serif", color: "#3F352D", margin: "0 0 8px" }}>We could not load the collection</h3>
+        <p style={{ color: "#746B65", margin: 0 }}>Please refresh the page or chat with us on WhatsApp for help.</p>
       </div>
     );
   }
@@ -79,55 +98,64 @@ export default function ProductGrid() {
   return (
     <div>
       {/* Filters bar */}
-      <div style={{
-        backgroundColor: "#FFF9F5", border: "1px solid #F2D9D0",
+      <div className="filters-bar" style={{
+        backgroundColor: "#F8F1EA", border: "1px solid #E7C3B5",
         borderRadius: "16px", padding: "20px 24px", marginBottom: "36px",
         display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center",
       }}>
         <div style={{ position: "relative", flex: "1 1 220px" }}>
-          <span style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "#A8A09A", fontSize: "0.9rem" }}>🔍</span>
           <input
             type="text"
             placeholder="Search products…"
+            aria-label="Search products"
+            title="Search products by name or description"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
               width: "100%", padding: "10px 14px 10px 36px",
-              borderRadius: "50px", border: "1px solid #E8C4B8",
-              backgroundColor: "#FAF7F2", fontSize: "0.88rem", color: "#3D3530",
+              borderRadius: "6px", border: "1px solid #C98F7D",
+              backgroundColor: "#FCF9F5", fontSize: "0.88rem", color: "#3F352D",
               outline: "none", boxSizing: "border-box",
             }}
           />
         </div>
-        <select
-          value={sort}
-          onChange={(e) => setSort(e.target.value)}
-          style={{
-            padding: "10px 16px", borderRadius: "50px",
-            border: "1px solid #E8C4B8", backgroundColor: "#FAF7F2",
-            fontSize: "0.88rem", color: "#3D3530", outline: "none", cursor: "pointer",
-          }}
-        >
-          <option value="default">Sort: Default</option>
-          <option value="asc">Price: Low to High</option>
-          <option value="desc">Price: High to Low</option>
-        </select>
-        <div style={{ fontSize: "0.8rem", color: "#A8A09A", marginLeft: "auto", whiteSpace: "nowrap" }}>
+        <div className="sort-select-wrap">
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            aria-label="Sort products"
+            title="Sort products by price"
+            style={{
+              padding: "10px 42px 10px 16px", borderRadius: "6px",
+              border: "1px solid #C98F7D", backgroundColor: "#FCF9F5",
+              fontSize: "0.88rem", color: "#3F352D", outline: "none", cursor: "pointer",
+              appearance: "none", WebkitAppearance: "none",
+            }}
+          >
+            <option value="default">Sort: Default</option>
+            <option value="asc">Price: Low to High</option>
+            <option value="desc">Price: High to Low</option>
+          </select>
+          <span className="sort-select-arrow" aria-hidden="true">⌄</span>
+        </div>
+        <div style={{ fontSize: "0.8rem", color: "#8F8780", marginLeft: "auto", whiteSpace: "nowrap" }}>
           {filtered.length} product{filtered.length !== 1 ? "s" : ""}
         </div>
       </div>
 
       {/* Category pills */}
-      <div style={{ display: "flex", gap: "10px", marginBottom: "32px", flexWrap: "wrap" }}>
+      <div className="category-scroll" style={{ display: "flex", gap: "10px", marginBottom: "32px", flexWrap: "wrap" }}>
         {categories.map((cat) => (
           <button
             key={cat}
+            className={`category-filter${activeCategory === cat ? " category-filter--active" : ""}`}
             onClick={() => setActiveCategory(cat)}
+            title={`Show ${cat.toLowerCase()} products`}
             style={{
-              padding: "8px 20px", borderRadius: "50px",
-              border: activeCategory === cat ? "none" : "1px solid #E8C4B8",
-              backgroundColor: activeCategory === cat ? "#3D3530" : "#FFF9F5",
-              color: activeCategory === cat ? "#FFF9F5" : "#3D3530",
+              padding: "11px 20px", minHeight: "44px", borderRadius: "6px",
+              border: activeCategory === cat ? "none" : "1px solid #C98F7D",
+              backgroundColor: activeCategory === cat ? "#3F352D" : "#F8F1EA",
+              color: activeCategory === cat ? "#F8F1EA" : "#3F352D",
               fontSize: "0.85rem", fontWeight: activeCategory === cat ? 700 : 400,
               cursor: "pointer", transition: "all 0.2s", letterSpacing: "0.02em",
             }}
@@ -140,14 +168,15 @@ export default function ProductGrid() {
       {/* Grid */}
       {filtered.length === 0 ? (
         <div style={{ textAlign: "center", padding: "80px 20px" }}>
-          <div style={{ fontSize: "4rem", marginBottom: "16px" }}>🧶</div>
-          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.4rem", color: "#3D3530", marginBottom: "8px" }}>No products found</h3>
-          <p style={{ color: "#8A7F7A" }}>Try a different search or category</p>
+          <div className="empty-state-mark" aria-hidden="true" />
+          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.4rem", color: "#3F352D", marginBottom: "8px" }}>No products found</h3>
+          <p style={{ color: "#746B65" }}>Try a different search or category</p>
           <button
+            className="clear-filters"
             onClick={() => { setSearch(""); setActiveCategory("All"); }}
             style={{
-              marginTop: "20px", padding: "10px 24px", borderRadius: "50px",
-              backgroundColor: "#A8B5A0", color: "#fff", border: "none",
+              marginTop: "20px", padding: "10px 24px", borderRadius: "6px",
+              backgroundColor: "#B7B97A", color: "#fff", border: "none",
               cursor: "pointer", fontWeight: 700,
             }}
           >
@@ -155,7 +184,7 @@ export default function ProductGrid() {
           </button>
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "24px" }}>
+        <div className="product-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "24px" }}>
           {filtered.map((p) => <ProductCard key={p.id} product={p} />)}
         </div>
       )}

@@ -66,12 +66,12 @@ export async function fetchProducts(): Promise<Product[]> {
 
   try {
     const res = await fetch(url, { next: { revalidate: 300 } });
-    if (!res.ok) return [];
+    if (!res.ok) throw new Error(`Products request failed with status ${res.status}`);
     const raw = await res.text();
     return parseSheetData(raw);
   } catch (e) {
     console.error("Failed to fetch/parse sheet:", e);
-    return [];
+    throw e;
   }
 }
 

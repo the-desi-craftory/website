@@ -1,157 +1,282 @@
 "use client";
-import { useState } from "react";
+
+import { useEffect, useMemo, useState } from "react";
 import { Product } from "@/lib/types";
 import { BUSINESS_CONFIG } from "@/lib/config";
 
+type FormState = {
+  name: string;
+  phone: string;
+  payment: string;
+  address: string;
+  pincode: string;
+  special: string;
+  quantity: number;
+  customFields: Record<string, string>;
+};
+
+const paymentOptions = [
+  { value: "UPI", label: "UPI", help: "Fast and simple" },
+  { value: "Bank transfer", label: "Bank transfer", help: "We will share details" },
+  { value: "Cash on delivery", label: "Cash on delivery", help: "If available for your location" },
+  { value: "Need help choosing", label: "I need help choosing", help: "We will guide you on WhatsApp" },
+];
+
+function getFieldList(product: Product): string[] {
+  return product.orderFields
+    ? product.orderFields.split(",").map((field) => field.trim()).filter(Boolean)
+    : [];
+}
+
 export default function OrderForm({ product, onClose }: { product: Product; onClose: () => void }) {
-  const [form, setForm] = useState({
-    name: "", payment: "", address: "", special: ""
+  const fieldList = useMemo(() => getFieldList(product), [product]);
+  const storageKey = `checkout-draft:${product.id}`;
+  const [step, setStep] = useState<1 | 2>(1);
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState<FormState>(() => {
+    const emptyForm: FormState = {
+      name: "",
+      phone: "",
+      payment: "",
+      address: "",
+      pincode: "",
+      special: "",
+      quantity: 1,
+      customFields: Object.fromEntries(fieldList.map((field) => [field, ""])),
+    };
+
+    if (typeof window === "undefined") return emptyForm;
+
+    try {
+      const saved = window.localStorage.getItem(storageKey);
+      if (!saved) return emptyForm;
+      const parsed = JSON.parse(saved) as Partial<FormState>;
+      return {
+        ...emptyForm,
+        ...parsed,
+        quantity: Math.max(1, Number(parsed.quantity) || 1),
+        customFields: { ...emptyForm.customFields, ...(parsed.customFields || {}) },
+      };
+    } catch {
+      return emptyForm;
+    }
   });
 
-  const fieldList = product.orderFields
-    ? product.orderFields.split(",").map(f => f.trim()).filter(Boolean)
-    : [];
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify(form));
+    } catch {
+      // Draft recovery is an enhancement, not a requirement for checkout.
+    }
+  }, [form, storageKey]);
 
-  const [customFields, setCustomFields] = useState<Record<string, string>>(
-    Object.fromEntries(fieldList.map(f => [f, ""]))
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  const customFieldsValid = fieldList.every((field) => form.customFields[field]?.trim());
+  const phoneDigits = form.phone.replace(/\D/g, "");
+  const stepOneValid = Boolean(
+    form.name.trim() &&
+    phoneDigits.length >= 10 &&
+    form.address.trim() &&
+    /^\d{6}$/.test(form.pincode) &&
+    customFieldsValid,
   );
+  const valid = stepOneValid && Boolean(form.payment);
+  const subtotal = product.discountedPrice * form.quantity;
+  const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.discountedPrice);
+
+  function updateField<K extends keyof FormState>(key: K, value: FormState[K]) {
+    setForm((current) => ({ ...current, [key]: value }));
+  }
 
   function buildUrl() {
     const customSection = fieldList.length
-      ? "\n" + fieldList.map(f => `${f}: ${customFields[f] || "—"}`).join("\n")
+      ? `\nCustomisation:\n${fieldList.map((field) => `${field}: ${form.customFields[field] || "—"}`).join("\n")}`
       : "";
-
-    const hasDiscount = !!(product.originalPrice && product.originalPrice > product.discountedPrice);
     const priceLine = hasDiscount
-      ? `Price: ₹${product.discountedPrice} (base variant — was ₹${product.originalPrice})`
-      : `Price: ₹${product.discountedPrice} (base variant)`;
-
+      ? `Item price: ₹${product.discountedPrice.toLocaleString("en-IN")} each (was ₹${product.originalPrice!.toLocaleString("en-IN")})`
+      : `Item price: ₹${product.discountedPrice.toLocaleString("en-IN")} each`;
     const imageLine = product.imageUrl ? `\nProduct Photo: ${product.imageUrl}` : "";
-
-    const msg =
+    const message =
       `Hi! I would like to order:\n\n` +
       `Product: ${product.name} (${product.id})\n` +
-      `${priceLine}\n${imageLine}\n` +
+      `Quantity: ${form.quantity}\n` +
+      `${priceLine}\n` +
+      `Subtotal: ₹${subtotal.toLocaleString("en-IN")}${imageLine}\n` +
       `${customSection}\n\n` +
       `Full Name: ${form.name}\n` +
-      `Payment Method: ${form.payment}\n\n` +
+      `Phone: ${form.phone}\n` +
+      `Payment preference: ${form.payment}\n` +
       `Shipping Address: ${form.address}\n` +
+      `Pincode: ${form.pincode}\n` +
       `Special Request: ${form.special || "None"}\n\n` +
-      `Note: Shipping cost will be borne by the customer. Final price and delivery date may vary based on custom requirements.`;
-
-    return `https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`;
+      `Please confirm the final price, shipping cost, and delivery date before payment.`;
+    return `https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
   }
 
-  const customFieldsValid = fieldList.every(f => customFields[f]?.trim());
-  const valid = !!(form.name.trim() && form.payment.trim() && form.address.trim() && customFieldsValid);
+  function finishCheckout() {
+    setSubmitted(true);
+    try {
+      window.localStorage.removeItem(storageKey);
+    } catch {
+      // The WhatsApp handoff does not depend on localStorage.
+    }
+  }
 
   return (
-    <div onClick={onClose} style={{
-      position: "fixed", inset: 0, backgroundColor: "rgba(61,53,48,0.72)",
-      backdropFilter: "blur(4px)", zIndex: 1100,
-      display: "flex", alignItems: "center", justifyContent: "center", padding: "20px",
-    }}>
-      <div onClick={e => e.stopPropagation()} style={{
-        backgroundColor: "#FFF9F5", borderRadius: "20px", padding: "32px",
-        maxWidth: "480px", width: "100%", maxHeight: "90vh", overflowY: "auto",
-        boxShadow: "0 24px 64px rgba(61,53,48,0.3)",
-      }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.3rem", color: "#3D3530", margin: 0 }}>
-            Order Details
-          </h2>
-          <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "1.2rem", cursor: "pointer", color: "#8A7F7A" }}>✕</button>
-        </div>
-
-        {/* Product summary */}
-        <div style={{ backgroundColor: "#FAF7F2", borderRadius: "12px", padding: "12px 16px", marginBottom: "20px", border: "1px solid #F2D9D0" }}>
-          <div style={{ fontWeight: 700, color: "#3D3530", fontSize: "0.9rem" }}>{product.name}</div>
-          <div style={{ color: "#7A8F71", fontSize: "0.85rem", marginTop: "2px" }}>
-            ₹{product.discountedPrice.toLocaleString("en-IN")} · base variant
+    <div
+      onClick={onClose}
+      role="presentation"
+      style={{
+        position: "fixed", inset: 0, backgroundColor: "rgba(61,53,48,0.72)",
+        backdropFilter: "blur(4px)", zIndex: 1100, display: "flex",
+        alignItems: "center", justifyContent: "center", padding: "12px",
+      }}
+    >
+      <div
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="order-form-title"
+        className="checkout-dialog"
+        style={{
+          backgroundColor: "#F8F1EA", borderRadius: "20px", padding: "clamp(20px, 5vw, 32px)",
+          maxWidth: "520px", width: "100%", maxHeight: "94vh", overflowY: "auto",
+          boxShadow: "0 24px 64px rgba(61,53,48,0.3)", position: "relative",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "16px", marginBottom: "18px" }}>
+          <div>
+            <p style={{ color: "#5B6042", fontSize: "0.75rem", fontWeight: 700, margin: "0 0 6px", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              {submitted ? "Order message ready" : `Step ${step} of 2`}
+            </p>
+            <h2 id="order-form-title" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.45rem", color: "#3F352D", margin: 0 }}>
+              {submitted ? "Almost done!" : "Order this handmade piece"}
+            </h2>
           </div>
+          <button onClick={onClose} aria-label="Close order form" title="Close order form" style={closeButtonStyle}>✕</button>
         </div>
-
-        {/* Shipping notice */}
-        <div style={{ backgroundColor: "#FFF3E0", border: "1px solid #FFD9A0", borderRadius: "10px", padding: "10px 14px", marginBottom: "20px", fontSize: "0.8rem", color: "#8A6A30" }}>
-          📦 <strong>Shipping cost is borne by the customer</strong> and will be calculated based on your location.
-        </div>
-
-        {/* Product-specific fields */}
-        {fieldList.map(f => (
-          <div key={f} style={{ marginBottom: "14px" }}>
-            <label style={labelStyle}>{f} *</label>
-            <input
-              value={customFields[f]}
-              onChange={e => setCustomFields(prev => ({ ...prev, [f]: e.target.value }))}
-              placeholder={`Enter ${f.toLowerCase()}`}
-              style={inputStyle}
-            />
+        {!submitted && (
+          <div className="checkout-progress" aria-label={`Step ${step} of 2`}>
+            <span style={{ width: step === 1 ? "50%" : "100%" }} />
           </div>
-        ))}
+        )}
 
-        {/* Standard fields */}
-        {[
-          { key: "name", label: "Full Name", placeholder: "Your full name", required: true },
-          { key: "payment", label: "Preferred Payment Method", placeholder: "e.g. UPI, Bank Transfer, Cash on Delivery", required: true },
-          { key: "address", label: "Shipping Address", placeholder: "Full address with pincode", required: true },
-          { key: "special", label: "Special Request", placeholder: "Any special instructions (optional)", required: false },
-        ].map(({ key, label, placeholder, required }) => (
-          <div key={key} style={{ marginBottom: "14px" }}>
-            <label style={labelStyle}>{label} {required && "*"}</label>
-            {key === "address" || key === "special" ? (
-              <textarea
-                value={form[key as keyof typeof form]}
-                onChange={e => setForm(prev => ({ ...prev, [key]: e.target.value }))}
-                placeholder={placeholder}
-                rows={3}
-                style={{ ...inputStyle, resize: "vertical" }}
-              />
+        {submitted ? (
+          <div style={{ textAlign: "center", padding: "20px 4px 8px" }}>
+            <p style={{ color: "#3F352D", fontSize: "1rem", lineHeight: 1.65, margin: "0 0 20px" }}>
+              Your order details are ready in WhatsApp. Tap <strong>Send</strong> there to submit your request.
+            </p>
+            <p style={{ color: "#746B65", fontSize: "0.85rem", lineHeight: 1.6, margin: "0 0 24px" }}>
+              We will confirm the final price, shipping cost, and delivery date before asking for payment.
+            </p>
+            <button onClick={onClose} style={{ ...primaryButtonStyle, backgroundColor: "#3F352D" }}>Close</button>
+          </div>
+        ) : (
+          <>
+            <div style={{ backgroundColor: "#FCF9F5", borderRadius: "12px", padding: "12px 16px", marginBottom: "18px", border: "1px solid #E7C3B5" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: "12px", alignItems: "center" }}>
+                <div>
+                  <div style={{ fontWeight: 700, color: "#3F352D", fontSize: "0.95rem" }}>{product.name}</div>
+                  <div style={{ color: "#5B6042", fontSize: "0.85rem", marginTop: "3px" }}>
+                    ₹{product.discountedPrice.toLocaleString("en-IN")} each · subtotal ₹{subtotal.toLocaleString("en-IN")}
+                  </div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", border: "1px solid #C98F7D", borderRadius: "10px", padding: "4px 8px", backgroundColor: "#F8F1EA" }}>
+                  <button type="button" onClick={() => updateField("quantity", Math.max(1, form.quantity - 1))} aria-label="Decrease quantity" style={quantityButtonStyle}>−</button>
+                  <strong aria-label={`Quantity ${form.quantity}`}>{form.quantity}</strong>
+                  <button type="button" onClick={() => updateField("quantity", Math.min(20, form.quantity + 1))} aria-label="Increase quantity" style={quantityButtonStyle}>+</button>
+                </div>
+              </div>
+            </div>
+
+            {step === 1 ? (
+              <>
+                {fieldList.map((field) => (
+                  <div key={field} style={fieldWrapperStyle}>
+                    <label htmlFor={`custom-${field}`} style={labelStyle}>{field} *</label>
+                    <input id={`custom-${field}`} value={form.customFields[field] || ""} onChange={(event) => setForm((current) => ({ ...current, customFields: { ...current.customFields, [field]: event.target.value } }))} placeholder={`Enter ${field.toLowerCase()}`} style={inputStyle} />
+                  </div>
+                ))}
+                <div style={fieldWrapperStyle}>
+                  <label htmlFor="order-name" style={labelStyle}>Your name *</label>
+                  <input id="order-name" value={form.name} onChange={(event) => updateField("name", event.target.value)} autoComplete="name" placeholder="e.g. Priya Sharma" style={inputStyle} />
+                </div>
+                <div style={fieldWrapperStyle}>
+                  <label htmlFor="order-phone" style={labelStyle}>WhatsApp phone number *</label>
+                  <input id="order-phone" value={form.phone} onChange={(event) => updateField("phone", event.target.value)} type="tel" inputMode="tel" autoComplete="tel" placeholder="10-digit mobile number" style={inputStyle} />
+                  <p style={helperStyle}>We use this only to contact you about this order.</p>
+                </div>
+                <div style={fieldWrapperStyle}>
+                  <label htmlFor="order-address" style={labelStyle}>Delivery address *</label>
+                  <textarea id="order-address" value={form.address} onChange={(event) => updateField("address", event.target.value)} autoComplete="street-address" placeholder="House number, street, area, city" rows={3} style={{ ...inputStyle, resize: "vertical" }} />
+                </div>
+                <div style={fieldWrapperStyle}>
+                  <label htmlFor="order-pincode" style={labelStyle}>Pincode *</label>
+                  <input id="order-pincode" value={form.pincode} onChange={(event) => updateField("pincode", event.target.value.replace(/\D/g, "").slice(0, 6))} type="text" inputMode="numeric" autoComplete="postal-code" placeholder="6-digit pincode" style={inputStyle} />
+                </div>
+                <button type="button" onClick={() => setStep(2)} disabled={!stepOneValid} style={{ ...primaryButtonStyle, opacity: stepOneValid ? 1 : 0.55 }}>
+                  Continue to review
+                </button>
+                {!stepOneValid && <p style={validationStyle}>Please complete your name, phone, address, pincode, and any product options.</p>}
+              </>
             ) : (
-              <input
-                value={form[key as keyof typeof form]}
-                onChange={e => setForm(prev => ({ ...prev, [key]: e.target.value }))}
-                placeholder={placeholder}
-                style={inputStyle}
-              />
+              <>
+                <div style={{ backgroundColor: "#E8E9C9", borderRadius: "12px", padding: "14px 16px", marginBottom: "18px" }}>
+                  <strong style={{ color: "#3F352D", fontSize: "0.9rem" }}>Review your details</strong>
+                  <p style={summaryTextStyle}>{form.name} · {form.phone}</p>
+                  <p style={summaryTextStyle}>{form.address}, {form.pincode}</p>
+                  <button type="button" onClick={() => setStep(1)} style={editButtonStyle}>Edit details</button>
+                </div>
+                <fieldset style={{ border: 0, padding: 0, margin: "0 0 16px" }}>
+                  <legend style={labelStyle}>How would you prefer to pay? *</legend>
+                  <div style={{ display: "grid", gap: "8px" }}>
+                    {paymentOptions.map((option) => (
+                      <label key={option.value} style={{ display: "flex", alignItems: "center", gap: "10px", border: form.payment === option.value ? "2px solid #5B6042" : "1px solid #C98F7D", backgroundColor: form.payment === option.value ? "#E8E9C9" : "#FCF9F5", borderRadius: "10px", padding: "11px 12px", cursor: "pointer" }}>
+                        <input type="radio" name="payment" value={option.value} checked={form.payment === option.value} onChange={(event) => updateField("payment", event.target.value)} />
+                        <span><strong style={{ display: "block", color: "#3F352D", fontSize: "0.88rem" }}>{option.label}</strong><small style={{ color: "#746B65" }}>{option.help}</small></span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+                <div style={fieldWrapperStyle}>
+                  <label htmlFor="order-special" style={labelStyle}>Add a note <span style={{ fontWeight: 400, color: "#746B65" }}>(optional)</span></label>
+                  <textarea id="order-special" value={form.special} onChange={(event) => updateField("special", event.target.value)} placeholder="Any gift message or special request" rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+                </div>
+                <div style={{ backgroundColor: "#F4E7D7", border: "1px solid #D9B27F", borderRadius: "10px", padding: "11px 13px", marginBottom: "16px", fontSize: "0.8rem", color: "#80582B", lineHeight: 1.5 }}>
+                  Shipping is calculated separately from your pincode. We will confirm the exact total before payment.
+                </div>
+                <a href={valid ? buildUrl() : undefined} target="_blank" rel="noopener noreferrer" onClick={(event) => { if (!valid) event.preventDefault(); else finishCheckout(); }} style={{ ...primaryButtonStyle, display: "flex", textDecoration: "none", backgroundColor: valid ? "#25D366" : "#B4B86F", cursor: valid ? "pointer" : "not-allowed" }}>
+                  Review order in WhatsApp
+                </a>
+                <p style={{ ...helperStyle, textAlign: "center", marginTop: "10px" }}>Your message will be prepared. Tap Send in WhatsApp to submit your order.</p>
+              </>
             )}
-          </div>
-        ))}
-
-        <p style={{ fontSize: "0.72rem", color: "#A8A09A", margin: "0 0 16px", fontStyle: "italic" }}>
-          * Required fields. Final price may vary based on your requirements.
-        </p>
-
-        <a
-          href={valid ? buildUrl() : undefined}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={e => { if (!valid) e.preventDefault(); }}
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-            backgroundColor: valid ? "#25D366" : "#A8C5A0",
-            color: "#fff", padding: "14px", borderRadius: "12px",
-            textDecoration: "none", fontWeight: 700, fontSize: "0.95rem",
-            cursor: valid ? "pointer" : "not-allowed", transition: "background-color 0.2s",
-          }}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          {valid ? "Proceed to WhatsApp" : "Fill required fields to continue"}
-        </a>
+          </>
+        )}
       </div>
+      <style>{`
+        @media (max-width: 600px) {
+          .checkout-dialog { border-radius: 18px 18px 0 0 !important; align-self: flex-end; max-height: 96vh !important; }
+        }
+      `}</style>
     </div>
   );
 }
 
-const labelStyle: React.CSSProperties = {
-  display: "block", fontSize: "0.78rem", fontWeight: 700,
-  color: "#3D3530", marginBottom: "5px", letterSpacing: "0.02em",
-};
-
-const inputStyle: React.CSSProperties = {
-  width: "100%", padding: "10px 14px", borderRadius: "10px",
-  border: "1px solid #E8C4B8", backgroundColor: "#FAF7F2",
-  fontSize: "0.88rem", color: "#3D3530", outline: "none",
-  boxSizing: "border-box", fontFamily: "inherit",
-};
+const fieldWrapperStyle: React.CSSProperties = { marginBottom: "14px" };
+const labelStyle: React.CSSProperties = { display: "block", fontSize: "0.85rem", fontWeight: 700, color: "#3F352D", marginBottom: "6px" };
+const inputStyle: React.CSSProperties = { width: "100%", padding: "13px 14px", borderRadius: "10px", border: "1px solid #C98F7D", backgroundColor: "#FCF9F5", fontSize: "16px", color: "#3F352D", outline: "none", boxSizing: "border-box", fontFamily: "inherit" };
+const helperStyle: React.CSSProperties = { fontSize: "0.75rem", color: "#746B65", lineHeight: 1.5, margin: "5px 0 0" };
+const validationStyle: React.CSSProperties = { color: "#9B4A3C", fontSize: "0.78rem", lineHeight: 1.4, margin: "8px 0 0", textAlign: "center" };
+const summaryTextStyle: React.CSSProperties = { color: "#4F4D32", fontSize: "0.82rem", lineHeight: 1.5, margin: "5px 0 0" };
+const primaryButtonStyle: React.CSSProperties = { width: "100%", minHeight: "48px", alignItems: "center", justifyContent: "center", border: 0, borderRadius: "12px", backgroundColor: "#3F352D", color: "#F8F1EA", padding: "13px 16px", fontWeight: 700, fontSize: "0.95rem", cursor: "pointer", fontFamily: "inherit" };
+const closeButtonStyle: React.CSSProperties = { width: "44px", height: "44px", borderRadius: "50%", border: "1px solid #C98F7D", backgroundColor: "#FCF9F5", color: "#746B65", cursor: "pointer", fontSize: "1rem" };
+const quantityButtonStyle: React.CSSProperties = { width: "32px", height: "32px", border: 0, background: "transparent", color: "#3F352D", fontSize: "1.2rem", cursor: "pointer" };
+const editButtonStyle: React.CSSProperties = { border: 0, padding: 0, background: "transparent", color: "#5B6042", fontWeight: 700, fontSize: "0.78rem", cursor: "pointer", marginTop: "8px" };

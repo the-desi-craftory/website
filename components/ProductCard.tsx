@@ -38,14 +38,29 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <>
       <div className="product-card" style={{
-        backgroundColor: "#FFF9F5", borderRadius: "16px",
-        overflow: "hidden", border: "1px solid #F2D9D0",
+        backgroundColor: "#F8F1EA", borderRadius: "16px",
+        overflow: "hidden", border: "1px solid #E7C3B5",
         display: "flex", flexDirection: "column",
       }}>
+        <div className="product-card-category-wrap">
+          <div className="product-card-category-badge">{product.category}</div>
+        </div>
         {/* Image */}
-        <div onClick={openProductModal} style={{
-          position: "relative", height: "300px",
-          backgroundColor: "#FAF7F2", cursor: "pointer", overflow: "hidden",
+        <div
+          className="product-card-image"
+          onClick={openProductModal}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              openProductModal();
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label={`View details for ${product.name}`}
+          style={{
+          position: "relative", aspectRatio: "4 / 5", height: "auto",
+          backgroundColor: "#FCF9F5", cursor: "pointer", overflow: "hidden",
         }}>
           {!imgError && product.imageUrl ? (
             <Image
@@ -55,81 +70,63 @@ export default function ProductCard({ product }: { product: Product }) {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               style={{
                 objectFit: "cover",
-                objectPosition: "12px 0px", 
-                transformOrigin: "top left", 
-                transform: "scale(1.9)",
-                transition: "transform 0.4s ease",
+                objectPosition: "top left",
+                transformOrigin: "top left",
+                transform: "scale(2)",
               }}
               onError={() => setImgError(true)}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transformOrigin = "top left";
-                e.currentTarget.style.transform = "scale(1.7)";
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transformOrigin = "top left";
-                e.currentTarget.style.transform = "scale(1.9)"; 
-              }}
-              unoptimized
             />
           ) : (
             <div style={{
               width: "100%", height: "100%", display: "flex",
               alignItems: "center", justifyContent: "center",
-              fontSize: "4rem", backgroundColor: "#F2D9D0",
-            }}>🧶</div>
+              fontSize: "4rem", backgroundColor: "#E7C3B5",
+            }}>Image unavailable</div>
           )}
-
-          {/* Category badge */}
-          <div style={{
-            position: "absolute", top: "12px", left: "12px",
-            backgroundColor: "rgba(250,247,242,0.92)", backdropFilter: "blur(4px)",
-            padding: "4px 12px", borderRadius: "50px",
-            fontSize: "0.7rem", fontWeight: 700, color: "#7A8F71",
-            letterSpacing: "0.06em", textTransform: "uppercase",
-          }}>{product.category}</div>
 
           {/* Discount badge */}
           {hasDiscount && (
-            <div style={{
+            <div className="product-card-discount-badge product-card-discount-badge--card" style={{
               position: "absolute", top: "12px", right: "12px",
-              backgroundColor: "#E05C5C", color: "#fff",
-              padding: "4px 10px", borderRadius: "50px",
+              backgroundColor: "#B86B4B", color: "#fff",
+              padding: "4px 10px", borderRadius: "6px",
               fontSize: "0.72rem", fontWeight: 700,
             }}>{discountPct}% OFF</div>
           )}
 
           {/* Quick view */}
-          <div className="quick-view-hint" style={{
+          <div className="quick-view-hint" title="Quick view" style={{
             position: "absolute", bottom: "12px", right: "12px",
             backgroundColor: "rgba(61,53,48,0.7)", color: "#fff",
-            padding: "4px 10px", borderRadius: "50px",
-            fontSize: "0.7rem", opacity: 0, transition: "opacity 0.2s",
-          }}>Quick view</div>
+            padding: "7px", borderRadius: "50%",
+            fontSize: "0.7rem", opacity: 0, transition: "opacity 0.2s, border-radius 0.2s, padding 0.2s",
+          }}>
+            <svg className="quick-view-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-4-4" />
+            </svg>
+            <span className="quick-view-label">Quick view</span>
+          </div>
         </div>
 
         {/* Content */}
-        <div style={{ padding: "20px", flex: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
-          <h3 onClick={openProductModal} style={{
+        <div className="product-card-content" style={{ padding: "20px", flex: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
+          <h3 className="product-card-title" onClick={openProductModal} style={{
             fontFamily: "'Playfair Display', serif", fontSize: "1.05rem",
-            fontWeight: 600, color: "#3D3530", cursor: "pointer", margin: 0,
+            fontWeight: 600, color: "#3F352D", cursor: "pointer", margin: 0,
           }}>{product.name}</h3>
-
-          <p style={{
-            fontSize: "0.83rem", color: "#8A7F7A", lineHeight: 1.6,
-            margin: 0, flex: 1,
-            display: "-webkit-box", WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical", overflow: "hidden",
-          }}>{product.description}</p>
+          <button type="button" className="product-card-more" onClick={openProductModal}>
+            Click to know more
+          </button>
 
           {/* Make time */}
           {product.makeTime && (
-            <div style={{
+            <div className="product-card-make-time" style={{
               display: "inline-flex", alignItems: "center", gap: "5px",
-              backgroundColor: "#F2F5F0", borderRadius: "50px",
+              backgroundColor: "#E8E9C9", borderRadius: "6px",
               padding: "3px 10px", alignSelf: "flex-start", marginTop: "2px",
             }}>
-              <span style={{ fontSize: "0.75rem" }}>🕐</span>
-              <span style={{ fontSize: "0.73rem", color: "#7A8F71", fontWeight: 700 }}>
+              <span style={{ fontSize: "0.73rem", color: "#5B6042", fontWeight: 700 }}>
                 Ready in {product.makeTime}
               </span>
             </div>
@@ -137,36 +134,25 @@ export default function ProductCard({ product }: { product: Product }) {
 
           {/* Price + Order */}
           <div style={{ marginTop: "10px" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
+            <div className="product-card-price-row" style={{ display: "flex", alignItems: "baseline", gap: "8px", flexWrap: "wrap" }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: "8px", flexWrap: "wrap" }}>
-                <span style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: "1.25rem", fontWeight: 700, color: "#3D3530",
+                <span className="product-card-price" style={{
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: "1.2rem", fontWeight: 800, letterSpacing: "0.01em",
+                  fontVariantNumeric: "tabular-nums", color: "#3F352D",
                 }}>₹{product.discountedPrice.toLocaleString("en-IN")}</span>
                 {hasDiscount && (
-                  <span style={{ fontSize: "0.85rem", color: "#B0A5A0", textDecoration: "line-through" }}>
+                  <span style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.85rem", color: "#8F8780", textDecoration: "line-through", fontVariantNumeric: "tabular-nums" }}>
                     ₹{product.originalPrice!.toLocaleString("en-IN")}
                   </span>
                 )}
               </div>
-              <button onClick={() => setFormOpen(true)}
-                style={{
-                  display: "flex", alignItems: "center", gap: "5px",
-                  backgroundColor: "#25D366", color: "#fff",
-                  padding: "8px 14px", borderRadius: "50px",
-                  textDecoration: "none", fontSize: "0.78rem", fontWeight: 700,
-                  transition: "background-color 0.2s, transform 0.1s", flexShrink: 0,
-                }}
-                onMouseOver={(e) => { e.currentTarget.style.backgroundColor = "#1db954"; e.currentTarget.style.transform = "scale(1.04)"; }}
-                onMouseOut={(e) => { e.currentTarget.style.backgroundColor = "#25D366"; e.currentTarget.style.transform = "scale(1)"; }}
-              >{WA_SVG} Order</button>
             </div>
-            {/* Price may vary note */}
-            {product.orderFields && (
-              <p style={{ fontSize: "0.7rem", color: "#A8A09A", margin: "5px 0 0", fontStyle: "italic" }}>
-                * Price may vary based on requirements
-              </p>
-            )}
+            <button
+              onClick={() => setFormOpen(true)}
+              aria-label={`Order ${product.name}`}
+              className="product-card-action"
+            >{WA_SVG} Order now</button>
           </div>
         </div>
       </div>
