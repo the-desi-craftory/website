@@ -15,18 +15,18 @@ export default function AboutPage() {
     <div style={{ paddingTop: "124px" }}>
       {/* Header */}
       <div style={{
-        background: "linear-gradient(135deg, #FAF7F2 0%, #F2D9D0 100%)",
+        background: "linear-gradient(135deg, #FCF9F5 0%, #E7C3B5 100%)",
         padding: "60px 24px",
         textAlign: "center",
-        borderBottom: "1px solid #E8C4B8",
+        borderBottom: "1px solid #C98F7D",
       }}>
-        <p style={{ fontSize: "0.78rem", fontWeight: 700, color: "#A8B5A0", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "12px" }}>
+        <p style={{ fontSize: "0.78rem", fontWeight: 700, color: "#B7B97A", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "12px" }}>
           The makers behind the art
         </p>
-        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "#3D3530", margin: "0 0 16px" }}>
+        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "#3F352D", margin: "0 0 16px" }}>
             The Desi Craftory Founders
         </h1>
-        <p style={{ color: "#8A7F7A", maxWidth: "480px", margin: "0 auto", lineHeight: 1.7 }}>
+        <p style={{ color: "#746B65", maxWidth: "480px", margin: "0 auto", lineHeight: 1.7 }}>
           Two sisters, one shared passion — crafted with love, stitch by stitch.
         </p>
       </div>
@@ -43,17 +43,17 @@ export default function AboutPage() {
             />
           </div>
           <div>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.6rem, 3vw, 2.4rem)", color: "#3D3530", margin: "0 0 24px", lineHeight: 1.25 }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.6rem, 3vw, 2.4rem)", color: "#3F352D", margin: "0 0 24px", lineHeight: 1.25 }}>
               Hi, we&apos;re Mayuri & Kashmira!<br />
-              <em style={{ color: "#A8B5A0", fontStyle: "italic" }}>Sisters and co-founders of The Desi Craftory.</em>
+              <em style={{ color: "#B7B97A", fontStyle: "italic" }}>Sisters and co-founders of The Desi Craftory.</em>
             </h2>
-            <p style={{ fontSize: "1rem", color: "#8A7F7A", lineHeight: 1.85, marginBottom: "20px" }}>
+            <p style={{ fontSize: "1rem", color: "#746B65", lineHeight: 1.85, marginBottom: "20px" }}>
               We&apos;re sisters by blood and creators at heart, carrying forward the arts we fell in love with as <strong>teenagers</strong> — from <strong>crochet and crafting</strong> to <strong>mudwork</strong>.
             </p>
-            <p style={{ fontSize: "1rem", color: "#8A7F7A", lineHeight: 1.85, marginBottom: "20px" }}>
+            <p style={{ fontSize: "1rem", color: "#746B65", lineHeight: 1.85, marginBottom: "20px" }}>
               What began as a shared hobby between us has grown into something we&apos;re proud to call a business. Every piece is our way of keeping tradition alive while turning it into something new, personal, and meaningful.
             </p>
-            <p style={{ fontSize: "1rem", color: "#8A7F7A", lineHeight: 1.85, marginBottom: "36px" }}>
+            <p style={{ fontSize: "1rem", color: "#746B65", lineHeight: 1.85, marginBottom: "36px" }}>
               {BUSINESS_CONFIG.name} is not just about crochet — it&apos;s about <strong>all sorts of art work</strong>. Whether it&apos;s crochet, mudwork, or other handmade crafts, we make artworks that feel warm, handcrafted, and made to be cherished.
             </p>
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
@@ -65,7 +65,7 @@ export default function AboutPage() {
                   backgroundColor: "#25D366",
                   color: "#fff",
                   padding: "12px 28px",
-                  borderRadius: "50px",
+                  borderRadius: "6px",
                   textDecoration: "none",
                   fontWeight: 700,
                   fontSize: "0.9rem",
@@ -77,14 +77,14 @@ export default function AboutPage() {
                 Say Hello 👋
               </a>
               <Link href="/products" style={{
-                backgroundColor: "#FAF7F2",
-                color: "#3D3530",
+                backgroundColor: "#FCF9F5",
+                color: "#3F352D",
                 padding: "12px 28px",
-                borderRadius: "50px",
+                borderRadius: "6px",
                 textDecoration: "none",
                 fontWeight: 700,
                 fontSize: "0.9rem",
-                border: "1px solid #E8C4B8",
+                border: "1px solid #C98F7D",
               }}>
                 See Our Work
               </Link>
@@ -94,25 +94,24 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section style={{ backgroundColor: "#FFF9F5", padding: "80px 24px" }}>
+      <section style={{ backgroundColor: "#F8F1EA", padding: "80px 24px" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "56px" }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3vw, 2.4rem)", color: "#3D3530", margin: 0 }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3vw, 2.4rem)", color: "#3F352D", margin: 0 }}>
               What we make, and why it matters
             </h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
             {ABOUT_VALUES.map((v) => (
               <div key={v.title} style={{
-                backgroundColor: "#FAF7F2",
-                border: "1px solid #F2D9D0",
+                backgroundColor: "#FCF9F5",
+                border: "1px solid #E7C3B5",
                 borderRadius: "20px",
                 padding: "32px 28px",
                 textAlign: "center",
               }}>
-                <div style={{ fontSize: "2.5rem", marginBottom: "16px" }}>{v.icon}</div>
-                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", color: "#3D3530", margin: "0 0 12px" }}>{v.title}</h3>
-                <p style={{ fontSize: "0.875rem", color: "#8A7F7A", lineHeight: 1.7, margin: 0 }}>{v.desc}</p>
+                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", color: "#3F352D", margin: "0 0 12px" }}>{v.title}</h3>
+                <p style={{ fontSize: "0.875rem", color: "#746B65", lineHeight: 1.7, margin: 0 }}>{v.desc}</p>
               </div>
             ))}
           </div>
@@ -123,10 +122,10 @@ export default function AboutPage() {
       <section style={{ padding: "80px 24px" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "56px" }}>
-            <p style={{ fontSize: "0.78rem", fontWeight: 700, color: "#A8B5A0", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "12px" }}>
+            <p style={{ fontSize: "0.78rem", fontWeight: 700, color: "#B7B97A", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "12px" }}>
               From idea to artwork
             </p>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3vw, 2.4rem)", color: "#3D3530", margin: 0 }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3vw, 2.4rem)", color: "#3F352D", margin: 0 }}>
               How The Desi Craftory pieces are made
             </h2>
           </div>
@@ -136,24 +135,23 @@ export default function AboutPage() {
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
                   <div style={{
                     width: "52px", height: "52px", borderRadius: "50%",
-                    backgroundColor: "#F2D9D0",
+                    backgroundColor: "#E7C3B5",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: "1.4rem",
                   }}>
-                    {s.icon}
                   </div>
                   {i < ABOUT_CRAFT_STEPS.length - 1 && (
-                    <div style={{ width: "2px", flex: 1, backgroundColor: "#F2D9D0", marginTop: "8px", minHeight: "32px" }} />
+                    <div style={{ width: "2px", flex: 1, backgroundColor: "#E7C3B5", marginTop: "8px", minHeight: "32px" }} />
                   )}
                 </div>
                 <div style={{ paddingTop: "12px" }}>
-                  <div style={{ fontSize: "0.72rem", fontWeight: 700, color: "#A8B5A0", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>
+                  <div style={{ fontSize: "0.72rem", fontWeight: 700, color: "#B7B97A", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>
                     Step {s.step}
                   </div>
-                  <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.15rem", color: "#3D3530", margin: "0 0 8px" }}>
+                  <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.15rem", color: "#3F352D", margin: "0 0 8px" }}>
                     {s.title}
                   </h3>
-                  <p style={{ fontSize: "0.9rem", color: "#8A7F7A", lineHeight: 1.75, margin: 0 }}>{s.desc}</p>
+                  <p style={{ fontSize: "0.9rem", color: "#746B65", lineHeight: 1.75, margin: 0 }}>{s.desc}</p>
                 </div>
               </div>
             ))}
