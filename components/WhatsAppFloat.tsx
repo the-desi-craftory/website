@@ -9,6 +9,7 @@ export default function WhatsAppFloat() {
       target="_blank"
       rel="noopener noreferrer"
       className="wa-pulse"
+      aria-label="Questions? Chat with us on WhatsApp"
       style={{
         position: "fixed", bottom: "28px", right: "28px", zIndex: 999,
         width: "56px", height: "56px", borderRadius: "50%",
