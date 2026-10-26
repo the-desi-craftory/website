@@ -1,206 +1,81 @@
-# 🧶 Mayuri's Artwork - Crafted by Mehtas
+# The Desi Craftory
 
-A fully static, free-to-host crochet business website powered by **Next.js**, **Tailwind CSS**, and **Google Sheets** as a CMS.
+The official website for **The Desi Craftory**, a handmade art and craft
+business founded by sisters **Mayuri Mehta and Kashmira Shah**.
 
----
+The Desi Craftory creates thoughtful, handcrafted pieces that bring together
+crochet, mudwork, and other traditional and contemporary art forms. Every
+piece is made with care, attention to detail, and the intention of creating
+something personal and meaningful.
 
-## 🚀 Quick Start
+## What we make
 
-```bash
-npm install
-npm run dev
-```
+The collection includes:
 
-Open [http://localhost:3000](http://localhost:3000)
+- Crochet flowers and bouquets
+- Crochet keychains and accessories
+- Handmade home decor
+- Heritage frames
+- Custom pieces for gifting, celebrations, and special occasions
 
----
+Products are handcrafted, made to order, and shipped with care across India.
+Customers can request custom colours, sizes, designs, and themes.
 
-## 📋 Personalise the Website
+## Website experience
 
-### Step 1 — Edit `lib/config.ts`
+The website gives customers a simple way to discover the collection and get in
+touch with the makers:
 
-```ts
-export const BUSINESS_CONFIG = {
-  name: "Your Business Name",
-  tagline: "Your tagline here",
-  whatsappNumber: "919876543210",   // Country code + number, no + or spaces
-  instagramHandle: "yourhandle",
-  instagramUrl: "https://instagram.com/yourhandle",
-  email: "you@example.com",
-  sheetsUrl: "YOUR_GOOGLE_SHEETS_URL",  // See below
-};
-```
+- **Home** - Introduction to The Desi Craftory, featured creations, and the
+  brand's values
+- **Products** - Browse the complete collection, search products, filter by
+  category, sort by price, and view product details
+- **About** - Meet the founders and learn about the creative process, from
+  inspiration and material selection to crafting and packaging
+- **Contact** - Reach out through WhatsApp, Instagram, or email, find answers
+  to common questions, and request a custom order
 
----
+## Ordering
 
-## 📊 Google Sheets Setup (CMS)
+Customers can select a product, choose the quantity and available options, and
+review the order details before opening a pre-filled WhatsApp message. Custom
+orders can also be started directly from the Contact page.
 
-### Step 1 — Create the Sheet
+The final price, shipping cost, delivery date, and payment instructions are
+confirmed in WhatsApp. The website does not collect card details, UPI PINs,
+passwords, or other sensitive payment credentials.
 
-Create a Google Sheet with **exactly this header row**:
+## About the brand
 
-| Product Name | Category | Price | Description | Image URL | Available | Featured |
-|---|---|---|---|---|---|---|
-| Sunflower Bouquet | Flowers | 799 | Handmade crochet bouquet | https://... | Yes | Yes |
+The Desi Craftory began as a shared creative passion between Mayuri and
+Kashmira. Their work combines the warmth of handmade crochet with mudwork and
+other forms of art to keep traditional craftsmanship alive in personal,
+modern, and useful forms.
 
-- **Available**: `Yes` or `No` — `No` hides the product
-- **Featured**: `Yes` or `No` — shows on home page
-- **Image URL**: paste any direct image URL (Google Drive, Imgur, your own CDN, etc.)
+The brand is guided by:
 
-### Step 2 — Make the Sheet Public
+- Handcrafted work made with patience and care
+- Carefully selected materials
+- Thoughtful finishing and safe packaging
+- Customisation that makes every piece personal
 
-1. Click **Share** → **Change to anyone with the link** → **Viewer**
-2. Click **Done**
+## Connect with us
 
-### Step 3 — Get the JSON URL
+- **WhatsApp:** [Chat with The Desi Craftory](https://wa.me/918141816990)
+- **Instagram:** [@the.desi.craftory](https://instagram.com/the.desi.craftory)
+- **Email:** [the.desi.craftory@gmail.com](mailto:the.desi.craftory@gmail.com)
 
-Your sheet URL looks like:  
-`https://docs.google.com/spreadsheets/d/SHEET_ID/edit`
+## Website technology
 
-Your JSON URL is:  
-`https://docs.google.com/spreadsheets/d/SHEET_ID/gviz/tq?tqx=out:json&sheet=Products`
+This is a static website built with **Next.js**, **React**, and **Tailwind
+CSS**. Product information is managed through a Google Sheets catalogue, while
+orders are intentionally handed off to WhatsApp rather than processed through a
+server-side checkout.
 
-Replace `SHEET_ID` with your actual sheet ID (the long string between `/d/` and `/edit`).
-
-### Step 4 — Add the URL
-
-Create a `.env.local` file:
-
-```env
-NEXT_PUBLIC_SHEETS_URL=https://docs.google.com/spreadsheets/d/YOUR_ID/gviz/tq?tqx=out:json&sheet=Products
-```
-
-> **Note**: If the env variable is not set, the site shows built-in demo products automatically.
-
----
-
-## 🌐 Deploy to GitHub Pages (Free)
-
-### Step 1 — Push to GitHub
-
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git push -u origin main
-```
-
-### Step 2 — Add Secret
-
-In your GitHub repo → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
-- Name: `NEXT_PUBLIC_SHEETS_URL`
-- Value: your Google Sheets JSON URL
-
-### Step 3 — Enable GitHub Pages
-
-Go to **Settings** → **Pages** → Under **Source**, select **GitHub Actions**
-
-### Step 4 — Deploy!
-
-Every push to `main` automatically rebuilds and deploys the site.  
-Your site will be live at: `https://YOUR_USERNAME.github.io/YOUR_REPO/`
+Customer checkout drafts, when present, are saved only in the shopper's
+browser to protect the form from being lost during an accidental refresh. No
+customer details are sent to or stored by this website.
 
 ---
 
-## ☁️ Deploy to Cloudflare Pages (Alternative)
-
-1. Connect your GitHub repo at [pages.cloudflare.com](https://pages.cloudflare.com)
-2. Framework preset: **Next.js (Static HTML Export)**
-3. Build command: `npm run build`
-4. Output directory: `out`
-5. Add environment variable: `NEXT_PUBLIC_SHEETS_URL` = your sheets URL
-
----
-
-## 🖼️ Image Hosting Tips (Free Options)
-
-For product photos, you can use:
-
-- **Google Drive**: Upload → Right-click → Get link → Change to "Anyone" → Use direct link  
-  Format: `https://drive.google.com/uc?id=FILE_ID`
-- **Imgur**: Upload image → Copy direct link (ends in `.jpg`)
-- **Cloudinary Free Tier**: 25GB free storage, great for optimization
-- **GitHub** itself: Upload images to your repo's `/public/images/` folder, use `/images/photo.jpg`
-
----
-
-## 🛠️ Local Development
-
-```bash
-npm run dev      # Start development server
-npm run build    # Build static site
-npm run start    # Preview built site
-```
-
----
-
-## 📁 Project Structure
-
-```
-crochet-store/
-├── app/
-│   ├── layout.tsx          # Root layout (Navbar, Footer, WhatsApp button)
-│   ├── page.tsx            # Home page
-│   ├── globals.css         # Design tokens & global styles
-│   ├── not-found.tsx       # 404 page
-│   ├── products/
-│   │   └── page.tsx        # All products with filters
-│   ├── about/
-│   │   └── page.tsx        # About the artist
-│   └── contact/
-│       └── page.tsx        # Contact & FAQ
-├── components/
-│   ├── Navbar.tsx           # Responsive navigation
-│   ├── Footer.tsx           # Footer with links
-│   ├── ProductCard.tsx      # Product card with WhatsApp button
-│   ├── ProductGrid.tsx      # Client-side filter/search/sort
-│   ├── ProductModal.tsx     # Click-to-expand product detail
-│   └── WhatsAppFloat.tsx    # Floating WhatsApp CTA
-├── lib/
-│   ├── config.ts            # ⭐ Business settings (edit this!)
-│   ├── products.ts          # Google Sheets fetch + demo data
-│   └── types.ts             # TypeScript interfaces
-├── .github/workflows/
-│   └── deploy.yml           # GitHub Pages auto-deploy
-└── .env.example             # Environment variable template
-```
-
----
-
-## 🔄 Day-to-day: Adding Products
-
-1. Open your Google Sheet
-2. Add a new row with product details
-3. Set **Available** = `Yes`
-4. Paste an image URL
-5. **Done!** — the website auto-updates within 5 minutes (or on next deployment)
-
-No code changes needed. Ever.
-
----
-
-## 📱 Features
-
-- ✅ Mobile-first responsive design
-- ✅ Google Sheets CMS — no code for updates
-- ✅ WhatsApp ordering with pre-filled messages
-- ✅ Product search, filter by category, sort by price
-- ✅ Product detail modal
-- ✅ Static export — works on GitHub Pages / Cloudflare Pages free tier
-- ✅ SEO-friendly with meta tags
-- ✅ Floating WhatsApp button on all pages
-- ✅ Custom order request flow
-- ✅ Demo products when Sheets is not configured
-- ✅ Two-step mobile checkout with quantity, phone, pincode, payment preference, and WhatsApp confirmation
-- ✅ Checkout drafts saved only in the shopper's browser (localStorage); no customer details are sent to this site
-
-### Checkout privacy and static hosting
-
-This site is exported as static files for GitHub Pages. It does not have a server-side checkout, database, account system, or analytics endpoint. During checkout, incomplete form details are saved only in the visitor's browser so an accidental refresh does not erase the form. The draft is removed when the visitor opens the prepared WhatsApp order message.
-
-The final order is intentionally handed off to WhatsApp. Customers must tap **Send** in WhatsApp, and the business confirms the final price, shipping cost, delivery date, and payment instructions there. Do not collect card, UPI PIN, password, or other sensitive payment credentials in this form.
-
----
-
-*Made with 🧡 for handmade businesses*
+*Handcrafted with love, one stitch at a time.*
