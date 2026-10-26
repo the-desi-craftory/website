@@ -1,17 +1,60 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import { BUSINESS_CONFIG } from "@/lib/config";
-import { NAV_LINKS, SALE_MESSAGE } from "@/lib/content";
+import { NAV_LINKS } from "@/lib/content";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const saleTrackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const track = saleTrackRef.current;
+    const firstMessage = track?.firstElementChild as HTMLElement | null;
+    if (!track || !firstMessage) return;
+
+    let frameId = 0;
+    let lastTimestamp = performance.now();
+    let messageWidth = firstMessage.getBoundingClientRect().width;
+    const startsOffscreen = window.matchMedia("(min-width: 768px)").matches;
+    const initialOffset = startsOffscreen ? window.innerWidth : 0;
+    track.dataset.offset = String(initialOffset);
+    track.style.transform = `translate3d(${initialOffset}px, 0, 0)`;
+
+    const updateWidth = () => {
+      messageWidth = firstMessage.getBoundingClientRect().width;
+    };
+
+    const tick = (timestamp: number) => {
+      const elapsed = timestamp - lastTimestamp;
+      lastTimestamp = timestamp;
+      const currentOffset = Number(track.dataset.offset ?? "0");
+      const nextOffset = currentOffset - (elapsed * 38) / 1000;
+      const wrappedOffset = messageWidth > 0 && nextOffset <= -messageWidth
+        ? nextOffset + messageWidth
+        : nextOffset;
+
+      track.dataset.offset = String(wrappedOffset);
+      track.style.transform = `translate3d(${wrappedOffset}px, 0, 0)`;
+      frameId = requestAnimationFrame(tick);
+    };
+
+    const resizeObserver = new ResizeObserver(updateWidth);
+    resizeObserver.observe(firstMessage);
+    frameId = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
+    };
   }, []);
 
   return (
@@ -163,23 +206,17 @@ export default function Navbar() {
         alignItems: "center",
         overflow: "hidden",
       }}>
-        <div className="sale-strip-track" aria-label="Sale announcement">
-          <span>{SALE_MESSAGE}</span>
-          <span aria-hidden="true">{SALE_MESSAGE}</span>
+        <div ref={saleTrackRef} className="sale-strip-track" aria-label="Sale announcement">
+          <span>{BUSINESS_CONFIG.saleMessage}</span>
+          <span aria-hidden="true">{BUSINESS_CONFIG.saleMessage}</span>
         </div>
       </div>
 
       <style>{`
-        @keyframes sale-strip-scroll {
-          from { transform: translateX(0); }
-          to { transform: translateX(-50%); }
-        }
         .sale-strip-track {
           display: flex;
           width: max-content;
-          min-width: 100%;
           white-space: nowrap;
-          animation: sale-strip-scroll 22s linear infinite;
           font-family: 'Lato', sans-serif;
           font-size: 0.84rem;
           letter-spacing: 0.05em;
@@ -188,9 +225,14 @@ export default function Navbar() {
         }
         .sale-strip-track span {
           display: inline-block;
+          flex: 0 0 auto;
           padding-right: 48px;
         }
         @media (min-width: 768px) {
+          .sale-strip-track span {
+            flex-basis: 100vw;
+            box-sizing: border-box;
+          }
           .mobile-menu-btn { display: none !important; }
           .mobile-nav { display: none !important; }
         }
@@ -198,7 +240,6 @@ export default function Navbar() {
           .desktop-nav { display: none !important; }
           .sale-strip-track {
             font-size: 0.72rem;
-            animation-duration: 18s;
           }
         }
       `}</style>

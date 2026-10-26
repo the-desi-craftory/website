@@ -7,10 +7,6 @@ export const NAV_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-// Scrolling sale text displayed in the announcement strip below the navbar.
-export const SALE_MESSAGE =
-  "Handmade pieces made to order | Ships across India | Final price confirmed before payment";
-
 // Footer quick links list.
 // This can differ from NAV_LINKS if needed.
 export const FOOTER_QUICK_LINKS = [

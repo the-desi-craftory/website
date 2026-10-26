@@ -10,6 +10,8 @@ export const BUSINESS_CONFIG = {
   instagramHandle: "the.desi.craftory",
   instagramUrl: "https://instagram.com/the.desi.craftory",
   email: "the.desi.craftory@gmail.com",
+  saleMessage:
+    "Diwali Sale is Live | Flat 35% OFF on Crochet Products & 20% OFF on All Other Products",
 
   // Google Sheets JSON URL — set via .env.local or GitHub secret
   // Sheet name must be: Products
