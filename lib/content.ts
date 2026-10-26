@@ -9,7 +9,7 @@ export const NAV_LINKS = [
 
 // Scrolling sale text displayed in the announcement strip below the navbar.
 export const SALE_MESSAGE =
-  "Diwali Sale is Live | Flat 40% OFF on Crochet Products & 20% OFF on All Other Products";
+  "Diwali Sale is Live | Flat 35% OFF on Crochet Products & 20% OFF on All Other Products";
 
 // Footer quick links list.
 // This can differ from NAV_LINKS if needed.
