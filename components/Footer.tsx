@@ -10,8 +10,8 @@ export default function Footer() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "40px", marginBottom: "48px" }}>
           {/* Brand */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-              <span className="brand-mark brand-mark--footer" aria-hidden="true" />
+            <div className="brand-lockup" style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+              <span className="brand-mark brand-mark--footer" aria-hidden="true">🧶</span>
               <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", color: "#F8F1EA", fontWeight: 600 }}>
                 {BUSINESS_CONFIG.name}
               </span>

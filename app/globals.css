@@ -420,20 +420,38 @@ button:active, a:active {
   display: inline !important;
 }
 
-.brand-mark { flex: 0 0 auto; }
-
 .brand-mark,
 .empty-state-mark,
 .section-mark {
   display: inline-block;
+  flex: 0 0 auto;
+  position: relative;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  display: inline-flex;
+  font-size: 2rem;
+  justify-content: center;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.brand-lockup:hover .brand-mark,
+.brand-lockup:focus-within .brand-mark {
+  transform: rotate(8deg) scale(1.04);
+}
+
+.empty-state-mark,
+.section-mark {
   width: 28px;
   height: 28px;
   border: 2px solid #5B6042;
   border-radius: 50%;
-  position: relative;
 }
 
-.brand-mark::after,
 .empty-state-mark::after,
 .section-mark::after {
   content: "";
@@ -447,7 +465,9 @@ button:active, a:active {
   border-radius: 50%;
 }
 
-.brand-mark--footer { border-color: #B7B97A; }
+.brand-mark--footer {
+  font-size: 1.8rem;
+}
 .empty-state-mark, .section-mark { margin-bottom: 16px; }
 
 .product-card {

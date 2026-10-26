@@ -32,8 +32,8 @@ export default function Navbar() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "72px" }}>
           {/* Logo */}
           <Link href="/" style={{ textDecoration: "none" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <div className="brand-mark" aria-hidden="true" />
+            <div className="brand-lockup" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span className="brand-mark" aria-hidden="true">🧶</span>
               <div>
                 <div className="brand-name" style={{
                   fontFamily: "'Playfair Display', serif",
