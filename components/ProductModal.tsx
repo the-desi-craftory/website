@@ -45,8 +45,8 @@ export default function ProductModal({ product, onClose }: { product: Product; o
         backdropFilter: "blur(4px)", zIndex: 1000,
         display: "flex", alignItems: "center", justifyContent: "center", padding: "20px",
       }}>
-        <div onClick={(e) => e.stopPropagation()} className="modal-grid" style={{
-          backgroundColor: "#FFF9F5", borderRadius: "20px", overflow: "hidden",
+        <div onClick={(e) => e.stopPropagation()} className="modal-grid" role="dialog" aria-modal="true" aria-labelledby="product-modal-title" style={{
+          backgroundColor: "#F8F1EA", borderRadius: "20px", overflow: "hidden",
           maxWidth: "700px", width: "100%", maxHeight: "92vh", overflowY: "auto",
           boxShadow: "0 24px 64px rgba(61,53,48,0.3)",
           display: "grid", gridTemplateColumns: "1fr 1fr",
@@ -54,7 +54,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
           {/* Image side */}
           <div style={{
             display: "flex", flexDirection: "column",
-            backgroundColor: "#FAF7F2",
+            backgroundColor: "#FCF9F5",
           }}>
             {/* Image */}
             <div style={{
@@ -66,15 +66,15 @@ export default function ProductModal({ product, onClose }: { product: Product; o
             }}>
               {!imgError && product.imageUrl ? (
                 <Image src={product.imageUrl} alt={product.name} fill
-                  style={{ objectFit: "cover" }} onError={() => setImgError(true)} unoptimized />
+                  style={{ objectFit: "cover" }} onError={() => setImgError(true)} />
               ) : (
-                <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "5rem", backgroundColor: "#F2D9D0" }}>🧶</div>
+                <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem", color: "#5B6042", backgroundColor: "#E7C3B5" }}>Image unavailable</div>
               )}
               {hasDiscount && (
-                <div style={{
+                <div className="product-card-discount-badge product-card-discount-badge--modal" style={{
                   position: "absolute", top: "14px", left: "14px",
-                  backgroundColor: "#E05C5C", color: "#fff",
-                  padding: "5px 12px", borderRadius: "50px",
+                  backgroundColor: "#B86B4B", color: "#fff",
+                  padding: "5px 12px", borderRadius: "6px",
                   fontSize: "0.78rem", fontWeight: 700,
                 }}>{discountPct}% OFF</div>
               )}
@@ -96,58 +96,57 @@ export default function ProductModal({ product, onClose }: { product: Product; o
               style={{
                 display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
                 padding: "12px 16px", width: "100%",
-                backgroundColor: "#FAF7F2",
-                borderTop: "1px solid #F2D9D0", borderLeft: "none", borderRight: "none", borderBottom: "none",
+                backgroundColor: "#FCF9F5",
+                borderTop: "1px solid #E7C3B5", borderLeft: "none", borderRight: "none", borderBottom: "none",
                 fontSize: "0.78rem", fontWeight: 700,
-                color: "#7A8F71", letterSpacing: "0.03em",
+                color: "#5B6042", letterSpacing: "0.03em",
                 cursor: "pointer", transition: "background-color 0.2s",
               }}
-              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#F2D9D0")}
-              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#FAF7F2")}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#E7C3B5")}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#FCF9F5")}
             >
-              <span>🔍</span>
               View more {product.category} →
             </button>
           </div>
 
           {/* Details side */}
           <div style={{ padding: "28px", display: "flex", flexDirection: "column", gap: "12px" }}>
-            <button onClick={onClose} style={{
-              alignSelf: "flex-end", background: "#FAF7F2", border: "1px solid #F2D9D0",
+            <button onClick={onClose} aria-label="Close product details" title="Close product details" style={{
+              alignSelf: "flex-end", background: "#FCF9F5", border: "1px solid #E7C3B5",
               borderRadius: "50%", width: "32px", height: "32px", cursor: "pointer",
-              fontSize: "1rem", display: "flex", alignItems: "center", justifyContent: "center", color: "#8A7F7A",
+              fontSize: "1rem", display: "flex", alignItems: "center", justifyContent: "center", color: "#746B65",
             }}>✕</button>
 
             {/* Category + ID */}
             <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
               <span style={{
-                backgroundColor: "#F2D9D0", color: "#7A8F71",
-                padding: "3px 12px", borderRadius: "50px",
+                backgroundColor: "#E7C3B5", color: "#5B6042",
+                padding: "3px 12px", borderRadius: "6px",
                 fontSize: "0.7rem", fontWeight: 700,
                 letterSpacing: "0.06em", textTransform: "uppercase",
               }}>{product.category}</span>
-              <span style={{ fontSize: "0.7rem", color: "#B0A5A0" }}>#{product.id}</span>
+              <span style={{ fontSize: "0.7rem", color: "#8F8780" }}>#{product.id}</span>
             </div>
 
-            <h2 style={{
+            <h2 id="product-modal-title" style={{
               fontFamily: "'Playfair Display', serif", fontSize: "1.45rem",
-              color: "#3D3530", margin: 0, lineHeight: 1.3,
+              color: "#3F352D", margin: 0, lineHeight: 1.3,
             }}>{product.name}</h2>
 
-            <p style={{ fontSize: "0.88rem", color: "#8A7F7A", lineHeight: 1.75, margin: 0 }}>
-              {product.description}
-            </p>
+            <details className="product-description product-modal-description">
+              <summary>Read description</summary>
+              <p>{product.description}</p>
+            </details>
 
             {/* Make time */}
             {product.makeTime && (
               <div style={{
                 display: "flex", alignItems: "center", gap: "8px",
-                backgroundColor: "#F2F5F0", borderRadius: "10px", padding: "10px 14px",
+                backgroundColor: "#E8E9C9", borderRadius: "10px", padding: "10px 14px",
               }}>
-                <span style={{ fontSize: "1.1rem" }}>🕐</span>
                 <div>
-                  <div style={{ fontSize: "0.68rem", fontWeight: 700, color: "#7A8F71", textTransform: "uppercase", letterSpacing: "0.06em" }}>Estimated Make Time</div>
-                  <div style={{ fontSize: "0.88rem", color: "#3D3530", fontWeight: 600 }}>{product.makeTime}</div>
+                  <div style={{ fontSize: "0.68rem", fontWeight: 700, color: "#5B6042", textTransform: "uppercase", letterSpacing: "0.06em" }}>Estimated Make Time</div>
+                  <div style={{ fontSize: "0.88rem", color: "#3F352D", fontWeight: 600 }}>{product.makeTime}</div>
                 </div>
               </div>
             )}
@@ -155,18 +154,18 @@ export default function ProductModal({ product, onClose }: { product: Product; o
             {/* Order fields info */}
             {fieldList.length > 0 && (
               <div style={{
-                backgroundColor: "#FFF3E0", borderRadius: "10px", padding: "10px 14px",
-                border: "1px solid #FFD9A0",
+                backgroundColor: "#F4E7D7", borderRadius: "10px", padding: "10px 14px",
+                border: "1px solid #D9B27F",
               }}>
-                <div style={{ fontSize: "0.68rem", fontWeight: 700, color: "#B07D2A", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "6px" }}>
-                  📋 We&apos;ll ask you for
+                <div style={{ fontSize: "0.68rem", fontWeight: 700, color: "#80582B", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "6px" }}>
+                  We&apos;ll ask you for
                 </div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                   {fieldList.map((f) => (
                     <span key={f} style={{
-                      backgroundColor: "#FFF9F5", border: "1px solid #FFD9A0",
-                      borderRadius: "50px", padding: "2px 10px",
-                      fontSize: "0.75rem", color: "#8A6A30",
+                      backgroundColor: "#F8F1EA", border: "1px solid #D9B27F",
+                      borderRadius: "6px", padding: "2px 10px",
+                      fontSize: "0.75rem", color: "#80582B",
                     }}>{f}</span>
                   ))}
                 </div>
@@ -174,14 +173,15 @@ export default function ProductModal({ product, onClose }: { product: Product; o
             )}
 
             {/* Price block */}
-            <div style={{ borderTop: "1px solid #F2D9D0", paddingTop: "12px" }}>
+            <div style={{ borderTop: "1px solid #E7C3B5", paddingTop: "12px" }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: "12px", flexWrap: "wrap", marginBottom: "4px" }}>
                 <span style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: "1.9rem", fontWeight: 700, color: "#3D3530",
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: "1.9rem", fontWeight: 800, letterSpacing: "0.01em",
+                  fontVariantNumeric: "tabular-nums", color: "#3F352D",
                 }}>₹{product.discountedPrice.toLocaleString("en-IN")}</span>
                 {hasDiscount && (
-                  <span style={{ fontSize: "1rem", color: "#B0A5A0", textDecoration: "line-through" }}>
+                  <span style={{ fontFamily: "'Lato', sans-serif", fontSize: "1rem", color: "#8F8780", textDecoration: "line-through", fontVariantNumeric: "tabular-nums" }}>
                     ₹{product.originalPrice!.toLocaleString("en-IN")}
                   </span>
                 )}
@@ -189,34 +189,31 @@ export default function ProductModal({ product, onClose }: { product: Product; o
               {hasDiscount && (
                 <div style={{
                   display: "inline-flex", alignItems: "center", gap: "6px",
-                  backgroundColor: "#FDE8E8", borderRadius: "8px",
+                  backgroundColor: "#F4DDE2", borderRadius: "8px",
                   padding: "4px 10px", marginBottom: "6px",
                 }}>
-                  <span style={{ fontSize: "0.78rem", color: "#C0392B", fontWeight: 700 }}>
-                    🎉 You save ₹{savings.toLocaleString("en-IN")} ({discountPct}% off)
+                  <span style={{ fontSize: "0.78rem", color: "#8A4F5A", fontWeight: 700 }}>
+                    You save ₹{savings.toLocaleString("en-IN")} ({discountPct}% off)
                   </span>
                 </div>
               )}
-              <p style={{ fontSize: "0.72rem", color: "#A8A09A", margin: "4px 0 0", fontStyle: "italic" }}>
-                * Starting price for base variant. Final price may vary based on your requirements.
-              </p>
             </div>
 
             {/* WhatsApp CTA */}
-            <button onClick={() => setFormOpen(true)}
+            <button onClick={() => setFormOpen(true)} className="product-modal-cta" aria-label={`Order ${product.name} now`}
               style={{
                 display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                backgroundColor: "#25D366", color: "#fff",
+                backgroundColor: "#1F6040", color: "#fff",
                 padding: "13px", borderRadius: "12px",
                 fontWeight: 700, fontSize: "0.92rem",
                 transition: "background-color 0.2s", border: "none", cursor: "pointer",
               }}
-              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#1db954")}
-              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#25D366")}
-            >{WA_SVG} Order on WhatsApp</button>
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#174A31")}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#1F6040")}
+            >{WA_SVG} Order now</button>
 
-            <p style={{ fontSize: "0.72rem", color: "#A8A09A", textAlign: "center", margin: 0 }}>
-              🤲 100% handmade · Press Esc to close
+            <p className="product-modal-price-note">
+              100% handmade · Final price confirmed before payment
             </p>
           </div>
         </div>
@@ -228,6 +225,12 @@ export default function ProductModal({ product, onClose }: { product: Product; o
               max-height: 92vh !important;
               overflow-y: auto !important;
             } 
+            .product-modal-cta {
+              position: sticky;
+              bottom: 0;
+              box-shadow: 0 -8px 18px rgba(61,53,48,0.08);
+              z-index: 2;
+            }
           }
         `}</style>
       </div>
