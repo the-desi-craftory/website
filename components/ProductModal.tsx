@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { Product } from "@/lib/types";
 import OrderForm from "./OrderForm";
@@ -28,17 +29,16 @@ export default function ProductModal({ product, onClose }: { product: Product; o
   useEffect(() => {
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    const onPopState = () => onClose();
     window.addEventListener("keydown", onKey);
-    window.addEventListener("popstate", onPopState);
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
-      window.removeEventListener("popstate", onPopState);
     };
   }, [onClose]);
 
-  return (
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <>
       <div onClick={onClose} style={{
         position: "fixed", inset: 0, backgroundColor: "rgba(61,53,48,0.72)",
@@ -235,6 +235,7 @@ export default function ProductModal({ product, onClose }: { product: Product; o
         `}</style>
       </div>
       {formOpen && <OrderForm product={product} onClose={() => setFormOpen(false)} />}
-    </>
+    </>,
+    document.body,
   );
 }

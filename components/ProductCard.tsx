@@ -23,21 +23,23 @@ export default function ProductCard({ product }: { product: Product }) {
     : 0;
 
   function openProductModal() {
-    window.history.pushState({ productModalOpen: true }, "", window.location.href);
     setModalOpen(true);
   }
 
   function closeProductModal() {
-    if (window.history.state?.productModalOpen) {
-      window.history.back();
-      return;
-    }
     setModalOpen(false);
   }
 
   return (
     <>
-      <div className="product-card" style={{
+      <div
+        className="product-card"
+        onClick={(event) => {
+          const target = event.target as HTMLElement;
+          if (target.closest("button, a, input, select, textarea, [role='button']")) return;
+          openProductModal();
+        }}
+        style={{
         backgroundColor: "#F8F1EA", borderRadius: "16px",
         overflow: "hidden", border: "1px solid #E7C3B5",
         display: "flex", flexDirection: "column",
